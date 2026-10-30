@@ -572,17 +572,32 @@
       </div>
 
       <!-- VietQR Live Box -->
-      <div id="vietQrBox" class="p-4 bg-orange-50/80 rounded-2xl border border-orange-200 text-center space-y-2">
-        <div class="flex items-center justify-center gap-2 text-xs font-black text-slate-800">
-          <span>MÃ VIETQR TỰ ĐỘNG KHỚP ĐƠN</span>
+      <div id="vietQrBox" class="p-4 bg-orange-50/80 rounded-2xl border border-orange-200 text-center space-y-2.5">
+        <div class="flex items-center justify-between text-xs font-black text-slate-800">
+          <span>MÃ THANH TOÁN VIETQR CHÍNH THỨC</span>
+          <span class="text-[10px] bg-red-600 text-white px-2 py-0.5 rounded-full uppercase">MB Bank</span>
         </div>
-        <div class="inline-block p-2 bg-white rounded-xl shadow-md border border-orange-100">
-          <img id="vietQrImg" src="" alt="VietQR" class="w-40 h-40 mx-auto object-contain">
+        
+        <!-- Toggle view mode: Dynamic QR with Amount vs Official Card QR -->
+        <div class="inline-flex p-1 bg-white rounded-xl border border-orange-200 text-[11px] font-bold">
+          <button type="button" onclick="setQrDisplayMode('dynamic')" id="btnQrDynamic" class="px-3 py-1 rounded-lg bg-[#ee4d2d] text-white transition-all shadow-xs">
+            ⚡ QR Tự Điền Số Tiền
+          </button>
+          <button type="button" onclick="setQrDisplayMode('card')" id="btnQrCard" class="px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition-all">
+            💳 Thẻ QR Gốc Của Shop
+          </button>
         </div>
-        <p class="text-[11px] text-slate-600">
-          Ngân hàng: <strong>MBBank</strong> • Số tài khoản: <strong>0345678999</strong><br>
-          Chủ tài khoản: <strong>CONG TY TNHH XNK GIA HAN PHAT</strong>
-        </p>
+
+        <div class="p-2 bg-white rounded-2xl shadow-md border border-orange-100 flex items-center justify-center min-h-[180px]">
+          <img id="vietQrImg" src="" alt="VietQR" class="w-44 h-44 object-contain">
+          <img id="vietQrCardImg" src="images/vietqr_nguyen_trung_nghia.png" alt="Thẻ VietQR Nguyễn Trung Nghĩa" class="hidden max-h-64 rounded-xl object-contain">
+        </div>
+        <div class="text-[11px] text-slate-700 bg-white/80 p-2.5 rounded-xl border border-orange-100 space-y-0.5 text-left">
+          <p>Ngân hàng: <strong class="text-slate-900">MB Bank (Ngân hàng TMCP Quân Đội)</strong></p>
+          <p>Số tài khoản: <strong class="text-blue-700 text-xs font-black tracking-wide">0964320921</strong></p>
+          <p>Chủ tài khoản: <strong class="text-[#ee4d2d] uppercase font-black">NGUYEN TRUNG NGHIA</strong></p>
+          <p class="text-[10px] text-slate-500 italic mt-1">* Quét mã QR bằng mọi ứng dụng ngân hàng hoặc ví điện tử (Napas 24/7).</p>
+        </div>
       </div>
 
       <!-- Order Summary Card -->
@@ -1739,10 +1754,31 @@
 
       const qrImg = document.getElementById("vietQrImg");
       const orderDesc = `DH${Date.now().toString().slice(-6)}`;
-      const qrUrl = `https://img.vietqr.io/image/MB-0345678999-compact2.png?amount=${total}&addInfo=${orderDesc}&accountName=GIA%20HAN%20PHAT`;
+      const qrUrl = `https://img.vietqr.io/image/MB-0964320921-compact2.png?amount=${total}&addInfo=${orderDesc}&accountName=NGUYEN%20TRUNG%20NGHIA`;
       qrImg.src = qrUrl;
+      setQrDisplayMode('dynamic');
 
       document.getElementById("checkoutModal").classList.remove("hidden");
+    }
+
+    function setQrDisplayMode(mode) {
+      const dynamicImg = document.getElementById("vietQrImg");
+      const cardImg = document.getElementById("vietQrCardImg");
+      const btnDynamic = document.getElementById("btnQrDynamic");
+      const btnCard = document.getElementById("btnQrCard");
+      if (!dynamicImg || !cardImg || !btnDynamic || !btnCard) return;
+
+      if (mode === 'card') {
+        dynamicImg.classList.add("hidden");
+        cardImg.classList.remove("hidden");
+        btnCard.className = "px-3 py-1 rounded-lg bg-[#ee4d2d] text-white transition-all shadow-xs";
+        btnDynamic.className = "px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition-all";
+      } else {
+        cardImg.classList.add("hidden");
+        dynamicImg.classList.remove("hidden");
+        btnDynamic.className = "px-3 py-1 rounded-lg bg-[#ee4d2d] text-white transition-all shadow-xs";
+        btnCard.className = "px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition-all";
+      }
     }
 
     function closeCheckoutModal() {
