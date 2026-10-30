@@ -526,38 +526,56 @@
       </div>
 
       <!-- OFFICIAL VIETQR PAYMENT CARD -->
-      <div id="vietQrBox" class="p-4 bg-gradient-to-b from-orange-50 to-white rounded-2xl border border-orange-200 text-center space-y-3">
+      <div id="vietQrBox" class="p-4 bg-slate-50/90 rounded-2xl border border-slate-200 text-center space-y-3 shadow-inner">
         <div class="flex items-center justify-between text-xs font-black text-slate-800">
-          <span>THẺ THANH TOÁN VIETQR CHÍNH THỨC</span>
-          <span class="text-[10px] bg-red-600 text-white px-2 py-0.5 rounded-full uppercase font-black">MB Bank</span>
+          <div class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>QUÉT MÃ VIETQR THANH TOÁN</span>
+          </div>
+          <span class="text-[10px] bg-[#14234b] text-white px-2.5 py-0.5 rounded-full font-black uppercase tracking-wider">MB BANK • NAPAS 247</span>
         </div>
 
-        <!-- The Exact Official VietQR Card Provided by User -->
-        <div class="p-2 bg-white rounded-2xl shadow-md border border-orange-100 flex items-center justify-center">
-          <img src="images/vietqr_nguyen_trung_nghia.png" alt="Mã VietQR Nguyễn Trung Nghĩa - 0964320921" class="w-full max-h-72 object-contain rounded-xl">
+        <!-- Sleek Card Container -->
+        <div class="p-3 bg-gradient-to-b from-slate-100 to-slate-200/80 rounded-2xl flex flex-col items-center justify-center shadow-md border border-slate-300/60">
+          <img src="images/vietqr_card_clean.png" alt="Thẻ VietQR Nguyễn Trung Nghĩa - 0964320921" class="w-64 max-w-full drop-shadow-xl rounded-2xl transition-transform hover:scale-[1.02]">
+          <p class="text-[11px] text-slate-500 font-medium mt-2 flex items-center gap-1">
+            <svg class="w-3.5 h-3.5 text-[#ee4d2d]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
+            Quét mã bằng app ngân hàng hoặc MoMo
+          </p>
         </div>
 
-        <!-- Explicit Bank Credentials Box -->
-        <div class="text-xs text-slate-700 bg-white p-3 rounded-xl border border-orange-100 space-y-1 text-left">
-          <div class="flex justify-between items-center pb-1 border-b border-slate-100">
-            <span class="text-slate-500">Chủ tài khoản:</span>
-            <strong class="text-[#ee4d2d] text-sm font-black uppercase">NGUYEN TRUNG NGHIA</strong>
+        <!-- Bank Details Card with 1-click Copy -->
+        <div class="text-xs bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-xs space-y-2 text-left">
+          <div class="flex justify-between items-center pb-2 border-b border-slate-100">
+            <span class="text-slate-500 text-[11px]">Chủ tài khoản:</span>
+            <strong class="text-slate-900 font-black text-xs uppercase tracking-wide">NGUYEN TRUNG NGHIA</strong>
           </div>
           <div class="flex justify-between items-center py-0.5">
-            <span class="text-slate-500">Số tài khoản (MB Bank):</span>
-            <strong class="text-blue-700 text-sm font-black tracking-wider">0964320921</strong>
+            <span class="text-slate-500 text-[11px]">Số tài khoản MB:</span>
+            <div class="flex items-center gap-1.5">
+              <span class="font-mono font-black text-blue-700 text-sm tracking-wider">0964320921</span>
+              <button type="button" onclick="copyToClipboard('0964320921', 'Số tài khoản')" class="px-2 py-0.5 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded text-[10px] font-bold transition-colors">
+                Sao chép
+              </button>
+            </div>
           </div>
           <div class="flex justify-between items-center py-0.5">
-            <span class="text-slate-500">Ngân hàng:</span>
-            <strong class="text-slate-800 font-bold">MB Bank (Ngân hàng TMCP Quân Đội)</strong>
+            <span class="text-slate-500 text-[11px]">Số tiền thanh toán:</span>
+            <div class="flex items-center gap-1.5">
+              <span id="qrTotalDisplay" class="font-black text-sm text-[#ee4d2d]">0 ₫</span>
+              <button type="button" onclick="copyTotalAmount()" class="px-2 py-0.5 bg-orange-50 text-[#ee4d2d] hover:bg-orange-100 rounded text-[10px] font-bold transition-colors">
+                Sao chép
+              </button>
+            </div>
           </div>
-          <div class="flex justify-between items-center pt-1 border-t border-slate-100">
-            <span class="text-slate-500">Số tiền thanh toán:</span>
-            <strong id="qrTotalDisplay" class="text-base font-black text-[#ee4d2d]">0 ₫</strong>
-          </div>
-          <div class="flex justify-between items-center text-[11px] text-slate-500">
-            <span>Nội dung chuyển khoản:</span>
-            <strong id="qrOrderCodeDisplay" class="text-slate-900 font-mono font-bold">DH...</strong>
+          <div class="flex justify-between items-center pt-2 border-t border-slate-100">
+            <span class="text-slate-500 text-[11px]">Nội dung chuyển khoản:</span>
+            <div class="flex items-center gap-1.5">
+              <span id="qrOrderCodeDisplay" class="font-mono font-bold text-slate-800 text-xs">DH...</span>
+              <button type="button" onclick="copyOrderCode()" class="px-2 py-0.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded text-[10px] font-bold transition-colors">
+                Sao chép
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -1709,6 +1727,50 @@
 
     function togglePaymentQR(show) {
       document.getElementById("vietQrBox").style.display = show ? "block" : "none";
+    }
+
+    function copyToClipboard(text, label) {
+      if (!text) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(`Đã sao chép ${label}: ${text}`);
+        }).catch(() => {
+          fallbackCopyText(text, label);
+        });
+      } else {
+        fallbackCopyText(text, label);
+      }
+    }
+
+    function fallbackCopyText(text, label) {
+      const input = document.createElement("input");
+      input.value = text;
+      input.style.position = "fixed";
+      input.style.opacity = "0";
+      document.body.appendChild(input);
+      input.select();
+      try {
+        document.execCommand("copy");
+        showToast(`Đã sao chép ${label}: ${text}`);
+      } catch (err) {
+        showToast(`Không thể tự động sao chép: ${text}`, "error");
+      }
+      document.body.removeChild(input);
+    }
+
+    function copyTotalAmount() {
+      const el = document.getElementById("qrTotalDisplay");
+      if (el) {
+        const raw = el.textContent.replace(/[^\d]/g, '');
+        copyToClipboard(raw, "Số tiền");
+      }
+    }
+
+    function copyOrderCode() {
+      const el = document.getElementById("qrOrderCodeDisplay");
+      if (el) {
+        copyToClipboard(el.textContent.trim(), "Nội dung");
+      }
     }
 
     function confirmPlaceOrder() {
