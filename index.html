@@ -1,0 +1,1758 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopee Premier Mall - Mua Sắm Chính Hãng Trực Tuyến</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            shopee: {
+              50: '#fff5f1',
+              100: '#ffe8e0',
+              200: '#ffd0c2',
+              400: '#ff643d',
+              500: '#ee4d2d',
+              600: '#d73211',
+              700: '#b8280b',
+            }
+          },
+          boxShadow: {
+            'card': '0 2px 8px -1px rgba(0, 0, 0, 0.06), 0 1px 3px -1px rgba(0, 0, 0, 0.04)',
+            'card-hover': '0 12px 24px -4px rgba(238, 77, 45, 0.12), 0 4px 8px -2px rgba(0, 0, 0, 0.05)',
+            'drawer': '-10px 0 30px -5px rgba(0, 0, 0, 0.15)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background-color: #f6f7fb; }
+    .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scroll::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .custom-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .shopee-gradient { background: linear-gradient(135deg, #ee4d2d 0%, #ff5722 50%, #ff7043 100%); }
+    .hero-gradient { background: linear-gradient(135deg, #d73211 0%, #ee4d2d 40%, #ff7347 100%); }
+    .mall-gradient { background: linear-gradient(135deg, #d0011b 0%, #ee4d2d 100%); }
+    .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- TOP TOAST NOTIFICATIONS -->
+  <div id="toastContainer" class="fixed top-5 right-5 z-50 flex flex-col gap-2.5 pointer-events-none"></div>
+
+  <!-- 1. TOP UTILITY BAR -->
+  <div class="bg-[#d73211] text-white text-[12px] font-medium py-1.5 px-4 sm:px-8 border-b border-red-700/50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="#" class="hover:text-orange-200 transition-colors flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          Kênh Người Bán
+        </a>
+        <span class="opacity-40">|</span>
+        <a href="#" class="hover:text-orange-200 transition-colors flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+          Tải Ứng Dụng
+        </a>
+        <span class="opacity-40">|</span>
+        <span class="hidden md:inline-flex items-center gap-1 text-orange-100">
+          ✨ Cam kết 100% Chính Hãng • Miễn phí trả hàng 7 ngày
+        </span>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-1.5 cursor-pointer hover:text-orange-200">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+          <span>Thông báo</span>
+        </div>
+        <span class="opacity-40">|</span>
+        <!-- User Badge -->
+        <div class="flex items-center gap-2 cursor-pointer bg-white/10 hover:bg-white/20 px-2 py-0.5 rounded-full transition-all">
+          <div class="w-4 h-4 rounded-full bg-amber-400 text-slate-900 font-extrabold flex items-center justify-center text-[10px]">VIP</div>
+          <span class="font-semibold text-white">Châu Ngọc Bình</span>
+          <span class="text-[10px] bg-amber-400 text-slate-900 font-bold px-1 rounded">Gold Member</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. MAIN HEADER (SHOPEE MALL SIGNATURE) -->
+  <header class="sticky top-0 z-40 shopee-gradient text-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
+      <div class="flex items-center justify-between gap-4 sm:gap-8">
+        
+        <!-- Logo Brand -->
+        <div class="flex items-center gap-3 cursor-pointer select-none" onclick="switchNavTab('shop')">
+          <div class="w-11 h-11 rounded-2xl bg-white text-[#ee4d2d] flex items-center justify-center shadow-md shadow-red-900/30">
+            <svg class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm7 17H5V8h14v12zm-7-8c-1.66 0-3-1.34-3-3H7c0 2.76 2.24 5 5 5s5-2.24 5-5h-2c0 1.66-1.34 3-3 3z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xl sm:text-2xl font-black tracking-tight text-white drop-shadow">SHOPEE</span>
+              <span class="bg-white text-[#d0011b] text-[11px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider shadow-sm">Mall</span>
+            </div>
+            <p class="text-[11px] text-orange-100 font-medium tracking-wide">Trung Tâm Mua Sắm Chính Hãng</p>
+          </div>
+        </div>
+
+        <!-- Super Search Bar -->
+        <div class="flex-1 max-w-2xl hidden md:block">
+          <div class="relative bg-white rounded-xl p-1 shadow-md flex items-center">
+            <input type="text" id="globalSearchInput" oninput="handleGlobalSearch(this.value)" 
+              placeholder="Tìm sản phẩm, thương hiệu chính hãng, nông sản cao cấp..."
+              class="w-full px-3.5 py-1.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none rounded-lg">
+            <button onclick="executeSearch()" class="bg-[#ee4d2d] hover:bg-[#d73211] text-white px-5 py-2 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all shadow-sm">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <span>Tìm</span>
+            </button>
+          </div>
+          <!-- Quick search hot chips -->
+          <div class="flex items-center gap-2.5 mt-2 text-[11px] text-orange-100 overflow-x-auto whitespace-nowrap">
+            <span class="font-bold opacity-90">Xu hướng:</span>
+            <button onclick="setSearchTerm('iPhone 16 Pro Max')" class="hover:underline hover:text-white">iPhone 16 Pro Max</button>
+            <span>•</span>
+            <button onclick="setSearchTerm('Tiêu sọ lá chanh')" class="hover:underline hover:text-white">Tiêu sọ lá chanh</button>
+            <span>•</span>
+            <button onclick="setSearchTerm('Bò Wagyu A5')" class="hover:underline hover:text-white">Bò Wagyu A5</button>
+            <span>•</span>
+            <button onclick="setSearchTerm('Sony WH-1000XM5')" class="hover:underline hover:text-white">Sony WH-1000XM5</button>
+            <span>•</span>
+            <button onclick="setSearchTerm('Nồi chiên không dầu')" class="hover:underline hover:text-white">Nồi chiên không dầu</button>
+            <span>•</span>
+            <button onclick="setSearchTerm('Sầu riêng Musang King')" class="hover:underline hover:text-white">Sầu riêng Musang King</button>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-3">
+          <!-- Switch View Tabs: Mua sắm vs Quản lý đơn hàng -->
+          <button onclick="switchNavTab('orders')" id="tabBtnOrders" class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-semibold transition-all border border-white/20 backdrop-blur-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+            <span class="hidden sm:inline">Đơn Mua</span>
+            <span id="orderBadgeCount" class="bg-white text-[#ee4d2d] text-xs px-1.5 py-0.2 rounded-full font-black">0</span>
+          </button>
+
+          <!-- Cart Button -->
+          <button onclick="openCartDrawer()" class="relative flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white text-[#ee4d2d] hover:bg-orange-50 font-extrabold text-xs sm:text-sm shadow-md transition-all">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            <span class="hidden sm:inline">Giỏ Hàng</span>
+            <span id="cartBadgeCount" class="bg-[#ee4d2d] text-white text-xs font-black w-5 h-5 rounded-full flex items-center justify-center">0</span>
+          </button>
+
+          <!-- Settings Dropdown -->
+          <div class="relative">
+            <button onclick="toggleSettingsMenu()" id="btnSettings" class="p-2 rounded-xl text-white hover:bg-white/20 transition-all">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/></svg>
+            </button>
+            <div id="settingsMenu" class="hidden absolute right-0 mt-2 w-64 bg-white text-slate-800 rounded-2xl shadow-2xl border border-slate-100 py-2 z-50">
+              <div class="px-4 py-2 border-b border-slate-100">
+                <p class="text-xs font-bold text-slate-900">Quản Trị Hệ Thống</p>
+                <p class="text-[11px] text-slate-500">Shopee Premier Mall v2.0</p>
+              </div>
+              <button onclick="exportDataJSON()" class="w-full text-left px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                <span>💾 Sao lưu dữ liệu ra file (.json)</span>
+              </button>
+              <label class="w-full text-left px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2 cursor-pointer">
+                <span>📥 Khôi phục từ file (.json)</span>
+                <input type="file" id="importJsonInput" accept=".json" onchange="importDataJSON(event)" class="hidden">
+              </label>
+              <hr class="my-1 border-slate-100">
+              <button onclick="resetDefaultData()" class="w-full text-left px-4 py-2.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 flex items-center gap-2">
+                <span>🔄 Đặt lại dữ liệu gốc của Mall</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Mobile Search Field -->
+      <div class="md:hidden mt-3">
+        <div class="relative bg-white rounded-xl p-1 shadow flex items-center">
+          <input type="text" oninput="handleGlobalSearch(this.value)" placeholder="Tìm sản phẩm chính hãng..."
+            class="w-full px-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none">
+          <button class="bg-[#ee4d2d] text-white px-3 py-1.5 rounded-lg text-xs font-bold">Tìm</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3. MAIN CONTENT CONTAINER -->
+  <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5 flex-1">
+
+    <!-- ================= VIEW 1: SHOPPING STOREFRONT ================= -->
+    <div id="viewShopping" class="space-y-6">
+
+      <!-- HERO BANNER CAROUSEL & FAST BENEFITS -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <!-- Main Banner Carousel (2 Cols) -->
+        <div class="lg:col-span-2 relative rounded-3xl overflow-hidden shadow-card min-h-[220px] sm:min-h-[280px] hero-gradient text-white p-6 sm:p-8 flex flex-col justify-between">
+          <div class="relative z-10 max-w-lg space-y-2">
+            <span class="inline-block bg-white text-[#d73211] font-black text-xs px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+              🔥 Siêu Hội Mua Sắm 2026
+            </span>
+            <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+              100% Hàng Chính Hãng <br> Giảm Đến 50% & Freeship 0Đ
+            </h1>
+            <p class="text-sm text-orange-100 font-medium">
+              Từ công nghệ cao cấp, đồ gia dụng thông minh đến nông sản xuất khẩu thượng hạng.
+            </p>
+          </div>
+          <div class="relative z-10 flex items-center gap-3 mt-4">
+            <button onclick="scrollToProducts()" class="bg-white text-[#ee4d2d] hover:bg-orange-50 font-black text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow-lg transition-transform active:scale-95 flex items-center gap-2">
+              <span>Khám Phá Ngay</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </button>
+            <span class="text-xs text-orange-100 font-medium">Bảo đảm chính hãng bởi Shopee Mall</span>
+          </div>
+          <!-- Decorative Background Elements -->
+          <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+          <div class="absolute right-8 top-1/2 -translate-y-1/2 hidden sm:block opacity-25 text-9xl select-none pointer-events-none">
+            🛍️
+          </div>
+        </div>
+
+        <!-- 2 Side Promo Mini Banners -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
+          <!-- Mini Banner 1 -->
+          <div class="rounded-3xl p-5 bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-card flex items-center justify-between">
+            <div>
+              <span class="text-[10px] bg-white/20 font-bold px-2 py-0.5 rounded-full uppercase">Voucher Hot</span>
+              <h3 class="text-base font-extrabold mt-1">Giảm 100K Cho Đơn Mall</h3>
+              <p class="text-xs text-amber-100">Áp dụng mã: <strong class="underline">MALL100K</strong></p>
+            </div>
+            <button onclick="applyVoucherCode('MALL100K')" class="bg-white text-amber-600 font-bold text-xs px-3 py-1.5 rounded-lg shadow-sm hover:bg-amber-50 transition-all">
+              Lưu mã
+            </button>
+          </div>
+          <!-- Mini Banner 2 -->
+          <div class="rounded-3xl p-5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-card flex items-center justify-between">
+            <div>
+              <span class="text-[10px] bg-white/20 font-bold px-2 py-0.5 rounded-full uppercase">Freeship Xtra</span>
+              <h3 class="text-base font-extrabold mt-1">Miễn Phí Vận Chuyển 0Đ</h3>
+              <p class="text-xs text-emerald-100">Áp dụng mã: <strong class="underline">FREESHIP</strong></p>
+            </div>
+            <button onclick="applyVoucherCode('FREESHIP')" class="bg-white text-emerald-700 font-bold text-xs px-3 py-1.5 rounded-lg shadow-sm hover:bg-emerald-50 transition-all">
+              Lưu mã
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8 KEY ACTION SERVICES (SHOPEE STYLE) -->
+      <div class="bg-white rounded-3xl p-4 shadow-card grid grid-cols-4 sm:grid-cols-8 gap-3 text-center border border-slate-100">
+        <div onclick="filterByCategory('all')" class="cursor-pointer group flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-orange-50 transition-all">
+          <div class="w-12 h-12 rounded-2xl bg-red-100 text-[#ee4d2d] flex items-center justify-center text-xl group-hover:scale-110 transition-transform">🏷️</div>
+          <span class="text-[11px] font-bold text-slate-700 group-hover:text-[#ee4d2d]">Tất Cả Sản Phẩm</span>
+        </div>
+        <div onclick="filterByMallOnly()" class="cursor-pointer group flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-orange-50 transition-all">
+          <div class="w-12 h-12 rounded-2xl bg-red-600 text-white flex items-center justify-center text-xl group-hover:scale-110 transition-transform">💎</div>
+          <span class="text-[11px] font-bold text-slate-700 group-hover:text-[#ee4d2d]">Shopee Mall</span>
+        </div>
+        <div onclick="applyVoucherCode('FREESHIP')" class="cursor-pointer group flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-orange-50 transition-all">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">🚚</div>
+          <span class="text-[11px] font-bold text-slate-700 group-hover:text-[#ee4d2d]">Mã Freeship 0Đ</span>
+        </div>
+        <div onclick="filterByCategory('nong_san')" class="cursor-pointer group flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-orange-50 transition-all">
+          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">🌾</div>
+          <span class="text-[11px] font-bold text-slate-700 group-hover:text-[#ee4d2d]">Nông Sản Sạch</span>
+        </div>
+        <div onclick="filterByCategory('cong_nghe')" class="cursor-pointer group flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-orange-50 transition-all">
+          <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">💻</div>
+          <span class="text-[11px] font-bold text-slate-700 group-hover:text-[#ee4d2d]">Công Nghệ VIP</span>
+        </div>
+        <div onclick="filterByCategory('gia_dung')" class="cursor-pointer group flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-orange-50 transition-all">
+          <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">🍳</div>
+          <span class="text-[11px] font-bold text-slate-700 group-hover:text-[#ee4d2d]">Gia Dụng Bếp</span>
+        </div>
+        <div onclick="filterByCategory('thoi_trang')" class="cursor-pointer group flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-orange-50 transition-all">
+          <div class="w-12 h-12 rounded-2xl bg-pink-100 text-pink-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">👗</div>
+          <span class="text-[11px] font-bold text-slate-700 group-hover:text-[#ee4d2d]">Thời Trang</span>
+        </div>
+        <div onclick="filterByFlashSale()" class="cursor-pointer group flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-orange-50 transition-all">
+          <div class="w-12 h-12 rounded-2xl bg-orange-500 text-white flex items-center justify-center text-xl group-hover:scale-110 transition-transform">⚡</div>
+          <span class="text-[11px] font-bold text-slate-700 group-hover:text-[#ee4d2d]">Flash Sale</span>
+        </div>
+      </div>
+
+      <!-- FLASH SALE SECTION WITH LIVE COUNTDOWN -->
+      <div class="bg-white rounded-3xl p-5 shadow-card border border-slate-100">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-slate-100 mb-4">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl font-black text-[#ee4d2d] flex items-center gap-1 tracking-tight">
+              ⚡ FLASH SALE
+            </span>
+            <!-- Live Countdown Box -->
+            <div class="flex items-center gap-1.5 text-xs font-black text-white">
+              <span id="timerHour" class="bg-slate-900 px-2 py-1 rounded-md">02</span>
+              <span class="text-slate-900 font-bold">:</span>
+              <span id="timerMin" class="bg-slate-900 px-2 py-1 rounded-md">45</span>
+              <span class="text-slate-900 font-bold">:</span>
+              <span id="timerSec" class="bg-[#ee4d2d] px-2 py-1 rounded-md">18</span>
+            </div>
+          </div>
+          <button onclick="filterByFlashSale()" class="text-xs font-bold text-[#ee4d2d] hover:underline flex items-center gap-1">
+            <span>Xem tất cả Deal chớp nhoáng</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <!-- Flash sale items horizontal scroll -->
+        <div id="flashSaleContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          <!-- Injected dynamically -->
+        </div>
+      </div>
+
+      <!-- MAIN CATALOG: CATEGORIES & FILTER TABS -->
+      <div id="productsSection" class="space-y-4">
+        
+        <!-- Category Pill Tabs -->
+        <div class="bg-white rounded-2xl p-2.5 shadow-card border border-slate-100 flex items-center gap-2 overflow-x-auto whitespace-nowrap custom-scroll" id="categoryPillList">
+          <!-- Injected dynamically -->
+        </div>
+
+        <!-- Sort & Filter Bar -->
+        <div class="bg-white rounded-2xl p-4 shadow-card border border-slate-100 flex flex-wrap items-center justify-between gap-4">
+          <!-- Left: Filter status tabs -->
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Sắp xếp:</span>
+            <div class="inline-flex p-1 bg-slate-100 rounded-xl gap-1 text-xs font-semibold">
+              <button onclick="setSortMode('popular')" id="sortPopular" class="px-3 py-1.5 rounded-lg bg-white text-[#ee4d2d] shadow-sm">Phổ biến</button>
+              <button onclick="setSortMode('best_seller')" id="sortBestSeller" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Bán chạy</button>
+              <button onclick="setSortMode('price_asc')" id="sortPriceAsc" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Giá tăng dần</button>
+              <button onclick="setSortMode('price_desc')" id="sortPriceDesc" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Giá giảm dần</button>
+            </div>
+          </div>
+
+          <!-- Right: Price Range Quick Filter -->
+          <div class="flex items-center gap-2 text-xs">
+            <span class="font-bold text-slate-500">Mức giá:</span>
+            <select id="priceFilterSelect" onchange="handlePriceSelect(this.value)" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#ee4d2d]">
+              <option value="all">Tất cả khoảng giá</option>
+              <option value="under_500k">Dưới 500.000 ₫</option>
+              <option value="500k_2m">500.000 ₫ - 2.000.000 ₫</option>
+              <option value="2m_10m">2.000.000 ₫ - 10.000.000 ₫</option>
+              <option value="above_10m">Hàng cao cấp (> 10 triệu ₫)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- PRODUCT GRID (24+ High Quality Items) -->
+        <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5">
+          <!-- Injected dynamically -->
+        </div>
+
+        <!-- Empty Results Placeholder -->
+        <div id="emptyCatalogState" class="hidden bg-white rounded-3xl p-12 text-center shadow-card border border-slate-100 space-y-3">
+          <div class="text-5xl">🔍</div>
+          <h3 class="text-base font-bold text-slate-800">Không tìm thấy sản phẩm phù hợp</h3>
+          <p class="text-xs text-slate-500">Hãy thử tìm với từ khóa khác hoặc bỏ các bộ lọc giá.</p>
+          <button onclick="resetFilters()" class="bg-[#ee4d2d] text-white px-4 py-2 rounded-xl text-xs font-bold shadow-md hover:bg-[#d73211] transition-all">
+            Xem Tất Cả Sản Phẩm
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ================= VIEW 2: ORDER HISTORY MANAGEMENT ================= -->
+    <div id="viewOrders" class="hidden space-y-5">
+      
+      <!-- Orders Header -->
+      <div class="bg-white rounded-3xl p-6 shadow-card border border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-xl font-black text-slate-900 flex items-center gap-2">
+            <span>📦 Lịch Sử Đơn Hàng Của Bạn</span>
+            <span id="orderHeaderBadge" class="bg-orange-100 text-[#ee4d2d] text-xs font-black px-2 py-0.5 rounded-full">0 đơn</span>
+          </h2>
+          <p class="text-xs text-slate-500 mt-1">Theo dõi hành trình giao hàng và biên lai mua sắm chính hãng.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="switchNavTab('shop')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            <span>Tiếp Tục Mua Sắm</span>
+          </button>
+          <button onclick="exportOrdersCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm transition-all flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <span>Xuất Excel Đơn Hàng</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Orders List Container -->
+      <div id="ordersListContainer" class="space-y-4">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Empty Orders State -->
+      <div id="emptyOrdersState" class="hidden bg-white rounded-3xl p-16 text-center shadow-card border border-slate-100 space-y-4">
+        <div class="w-20 h-20 mx-auto rounded-3xl bg-orange-50 text-[#ee4d2d] flex items-center justify-center text-4xl shadow-inner">
+          🛍️
+        </div>
+        <h3 class="text-lg font-bold text-slate-800">Bạn chưa có đơn hàng nào</h3>
+        <p class="text-xs text-slate-500 max-w-sm mx-auto">
+          Hãy khám phá hàng trăm sản phẩm chính hãng với ưu đãi đặc quyền và đặt mua đơn hàng đầu tiên ngay!
+        </p>
+        <button onclick="switchNavTab('shop')" class="bg-[#ee4d2d] text-white px-6 py-2.5 rounded-xl text-xs font-extrabold shadow-md hover:bg-[#d73211] transition-transform active:scale-95">
+          Khám Phá Shopee Mall Ngay
+        </button>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- 4. SLIDE-OUT CART DRAWER -->
+  <div id="cartDrawerBackdrop" onclick="closeCartDrawer()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+  <aside id="cartDrawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-drawer transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+    <!-- Drawer Header -->
+    <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-white">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-xl bg-orange-100 text-[#ee4d2d] flex items-center justify-center font-black">
+          🛒
+        </div>
+        <div>
+          <h3 class="font-extrabold text-sm text-slate-900">Giỏ Hàng Của Bạn</h3>
+          <p class="text-[11px] text-slate-500"><span id="cartDrawerCount">0</span> sản phẩm đã chọn</p>
+        </div>
+      </div>
+      <button onclick="closeCartDrawer()" class="p-2 text-slate-400 hover:text-slate-700 rounded-xl hover:bg-slate-100 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Drawer Items List -->
+    <div id="cartItemsList" class="flex-1 overflow-y-auto p-4 space-y-3 custom-scroll">
+      <!-- Injected dynamically -->
+    </div>
+
+    <!-- Voucher & Summary Footer -->
+    <div class="p-5 border-t border-slate-100 bg-slate-50 space-y-3">
+      <!-- Voucher Input Bar -->
+      <div class="flex items-center gap-2">
+        <div class="relative flex-1">
+          <input type="text" id="voucherInput" placeholder="Nhập mã voucher (MALL100K, FREESHIP)..." 
+            class="w-full text-xs px-3 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#ee4d2d] uppercase font-bold text-slate-800">
+        </div>
+        <button onclick="applyManualVoucher()" class="bg-slate-900 text-white text-xs font-bold px-3 py-2 rounded-xl hover:bg-slate-800 transition-colors">
+          Áp dụng
+        </button>
+      </div>
+
+      <!-- Active Voucher Notice -->
+      <div id="activeVoucherBox" class="hidden text-xs bg-emerald-50 text-emerald-800 p-2.5 rounded-xl border border-emerald-200 flex items-center justify-between">
+        <span class="font-bold flex items-center gap-1.5">
+          <span>🏷️</span> <span id="activeVoucherText">Voucher applied</span>
+        </span>
+        <button onclick="removeVoucher()" class="text-slate-400 hover:text-rose-600 font-bold ml-2">Gỡ</button>
+      </div>
+
+      <!-- Price Breakdown -->
+      <div class="space-y-1.5 text-xs text-slate-600 pt-2 border-t border-slate-200">
+        <div class="flex justify-between">
+          <span>Tiền hàng:</span>
+          <span id="cartSubtotalText" class="font-bold text-slate-900">0 ₫</span>
+        </div>
+        <div class="flex justify-between text-emerald-600">
+          <span>Giảm giá voucher:</span>
+          <span id="cartDiscountText" class="font-bold">-0 ₫</span>
+        </div>
+        <div class="flex justify-between">
+          <span>Phí vận chuyển:</span>
+          <span class="text-emerald-600 font-bold">Miễn phí 100%</span>
+        </div>
+        <div class="flex justify-between text-sm font-black text-slate-900 pt-1.5 border-t border-slate-200">
+          <span>Tổng thanh toán:</span>
+          <span id="cartTotalText" class="text-base text-[#ee4d2d] font-black">0 ₫</span>
+        </div>
+      </div>
+
+      <!-- Checkout Button -->
+      <button onclick="openCheckoutModal()" id="btnGoCheckout" class="w-full bg-[#ee4d2d] hover:bg-[#d73211] text-white py-3 rounded-2xl font-black text-sm shadow-lg shadow-orange-900/20 transition-all flex items-center justify-center gap-2 active:scale-98">
+        <span>Mua Hàng</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- 5. PRODUCT DETAIL MODAL (QUICK VIEW) -->
+  <div id="quickViewModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+    <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto custom-scroll shadow-2xl relative p-6 space-y-6">
+      <button onclick="closeQuickView()" class="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-700 rounded-full hover:bg-slate-100">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+      
+      <div id="quickViewContent" class="space-y-4">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. CHECKOUT MODAL (WITH VIETQR INTEGRATION) -->
+  <div id="checkoutModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+    <div class="bg-white rounded-3xl max-w-lg w-full max-h-[92vh] overflow-y-auto custom-scroll shadow-2xl relative p-6 space-y-5">
+      <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-700 rounded-full hover:bg-slate-100">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+
+      <div class="border-b border-slate-100 pb-3">
+        <span class="text-[11px] bg-red-100 text-[#ee4d2d] font-black px-2 py-0.5 rounded-full uppercase">Thanh toán bảo mật</span>
+        <h3 class="text-lg font-black text-slate-900 mt-1">Xác Nhận Đặt Hàng</h3>
+      </div>
+
+      <!-- Customer Form -->
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Họ và tên người nhận</label>
+          <input type="text" id="orderCustomerName" value="Châu Ngọc Bình" class="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#ee4d2d] font-semibold text-slate-900">
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Số điện thoại</label>
+            <input type="tel" id="orderCustomerPhone" value="0918.234.567" class="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#ee4d2d] font-semibold text-slate-900">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Giao đến</label>
+            <input type="text" id="orderCustomerCity" value="TP. Hồ Chí Minh" class="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#ee4d2d] font-semibold text-slate-900">
+          </div>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Địa chỉ chi tiết nhận hàng</label>
+          <input type="text" id="orderCustomerAddress" value="Khu chế xuất Tân Thuận, Quận 7, TP. HCM" class="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#ee4d2d] font-medium text-slate-800">
+        </div>
+      </div>
+
+      <!-- Payment Method Selection -->
+      <div class="space-y-2 text-xs pt-2">
+        <label class="block font-bold text-slate-700">Phương thức thanh toán:</label>
+        <div class="space-y-1.5">
+          <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors">
+            <input type="radio" name="paymentMethod" value="vietqr" checked onchange="togglePaymentQR(true)" class="text-[#ee4d2d] focus:ring-[#ee4d2d]">
+            <div class="flex items-center gap-2">
+              <span class="text-base">🏦</span>
+              <div>
+                <span class="font-bold text-slate-900">Quét mã VietQR (Napas 24/7)</span>
+                <p class="text-[11px] text-slate-500">Khuyên dùng • Chuyển khoản miễn phí khớp đơn ngay</p>
+              </div>
+            </div>
+          </label>
+          <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors">
+            <input type="radio" name="paymentMethod" value="cod" onchange="togglePaymentQR(false)" class="text-[#ee4d2d] focus:ring-[#ee4d2d]">
+            <div class="flex items-center gap-2">
+              <span class="text-base">💵</span>
+              <div>
+                <span class="font-bold text-slate-900">Thanh toán khi nhận hàng (COD)</span>
+                <p class="text-[11px] text-slate-500">Kiểm tra hàng trước khi thanh toán</p>
+              </div>
+            </div>
+          </label>
+          <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors">
+            <input type="radio" name="paymentMethod" value="shopeepay" onchange="togglePaymentQR(false)" class="text-[#ee4d2d] focus:ring-[#ee4d2d]">
+            <div class="flex items-center gap-2">
+              <span class="text-base">📱</span>
+              <div>
+                <span class="font-bold text-slate-900">Ví Điện Tử ShopeePay</span>
+                <p class="text-[11px] text-slate-500">Hoàn thêm 5% xu Shopee</p>
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- VietQR Live Box -->
+      <div id="vietQrBox" class="p-4 bg-orange-50/80 rounded-2xl border border-orange-200 text-center space-y-2">
+        <div class="flex items-center justify-center gap-2 text-xs font-black text-slate-800">
+          <span>MÃ VIETQR TỰ ĐỘNG KHỚP ĐƠN</span>
+        </div>
+        <div class="inline-block p-2 bg-white rounded-xl shadow-md border border-orange-100">
+          <img id="vietQrImg" src="" alt="VietQR" class="w-40 h-40 mx-auto object-contain">
+        </div>
+        <p class="text-[11px] text-slate-600">
+          Ngân hàng: <strong>MBBank</strong> • Số tài khoản: <strong>0345678999</strong><br>
+          Chủ tài khoản: <strong>CONG TY TNHH XNK GIA HAN PHAT</strong>
+        </p>
+      </div>
+
+      <!-- Order Summary Card -->
+      <div class="bg-slate-50 p-3.5 rounded-2xl text-xs space-y-1">
+        <div class="flex justify-between text-slate-600">
+          <span>Tổng tiền thanh toán:</span>
+          <span id="checkoutTotalAmount" class="text-base font-black text-[#ee4d2d]">0 ₫</span>
+        </div>
+        <div class="flex justify-between text-slate-500 text-[11px]">
+          <span>Giao hàng:</span>
+          <span class="font-bold text-emerald-600">Miễn phí vận chuyển (Shopee Express 24h)</span>
+        </div>
+      </div>
+
+      <!-- Place Order Submit Button -->
+      <button onclick="confirmPlaceOrder()" class="w-full bg-[#ee4d2d] hover:bg-[#d73211] text-white py-3.5 rounded-2xl font-black text-sm shadow-xl shadow-orange-900/20 transition-transform active:scale-98 flex items-center justify-center gap-2">
+        <span>Xác Nhận Đặt Đơn Hàng</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- 7. FOOTER (SHOPEE STYLE) -->
+  <footer class="bg-white border-t border-slate-200 mt-12 text-slate-600 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div class="space-y-3">
+        <h4 class="font-extrabold text-slate-900 text-sm uppercase tracking-wider">CHĂM SÓC KHÁCH HÀNG</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="hover:text-[#ee4d2d]">Trung Tâm Trợ Giúp Shopee</a></li>
+          <li><a href="#" class="hover:text-[#ee4d2d]">Hướng Dẫn Mua Hàng & Thanh Toán</a></li>
+          <li><a href="#" class="hover:text-[#ee4d2d]">Chính Sách Vận Chuyển</a></li>
+          <li><a href="#" class="hover:text-[#ee4d2d]">Chính Sách Trả Hàng & Hoàn Tiền</a></li>
+        </ul>
+      </div>
+      <div class="space-y-3">
+        <h4 class="font-extrabold text-slate-900 text-sm uppercase tracking-wider">VỀ SHOPEE MALL</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="hover:text-[#ee4d2d]">Giới Thiệu Về Shopee Premier Mall</a></li>
+          <li><a href="#" class="hover:text-[#ee4d2d]">Tuyển Dụng & Phát Triển</a></li>
+          <li><a href="#" class="hover:text-[#ee4d2d]">Điều Khoản Dịch Vụ</a></li>
+          <li><a href="#" class="hover:text-[#ee4d2d]">Chính Sách Bảo Mật</a></li>
+        </ul>
+      </div>
+      <div class="space-y-3">
+        <h4 class="font-extrabold text-slate-900 text-sm uppercase tracking-wider">THANH TOÁN & VẬN CHUYỂN</h4>
+        <div class="flex flex-wrap gap-2 text-base">
+          <span class="bg-slate-100 p-2 rounded-lg" title="VietQR">🏦 VietQR</span>
+          <span class="bg-slate-100 p-2 rounded-lg" title="ShopeePay">📱 ShopeePay</span>
+          <span class="bg-slate-100 p-2 rounded-lg" title="Visa">💳 Visa/Master</span>
+          <span class="bg-slate-100 p-2 rounded-lg" title="COD">💵 COD</span>
+        </div>
+      </div>
+      <div class="space-y-3">
+        <h4 class="font-extrabold text-slate-900 text-sm uppercase tracking-wider">KẾT NỐI VỚI CHÚNG TÔI</h4>
+        <p class="text-slate-500">Shopee Premier Mall - Nền Tảng Thương Mại Điện Tử Hiện Đại</p>
+        <p class="text-[11px] text-slate-400">© 2026 Bản quyền thuộc về Shopee Premier Mall. Phát triển độc lập phục vụ trải nghiệm người dùng.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= JAVASCRIPT APPLICATION LOGIC ================= -->
+  <script>
+    // Initial Catalog Data
+    const INITIAL_PRODUCTS = [
+      {
+        id: "sp-01",
+        title: "iPhone 16 Pro Max 256GB Titan Tự Nhiên - Chính Hãng VN/A",
+        category: "cong_nghe",
+        price: 34990000,
+        originalPrice: 38990000,
+        discount: "-10%",
+        isMall: true,
+        isFlashSale: true,
+        soldCount: 8420,
+        rating: 4.9,
+        reviewsCount: 1420,
+        image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=600&auto=format&fit=crop&q=80",
+        location: "TP. Hồ Chí Minh",
+        description: "Thiết kế titan bền bỉ và nhẹ nhất từ trước đến nay. Nút Điều Khiển Camera hoàn toàn mới, quay video 4K 120 fps với Dolby Vision, chip A18 Pro đột phá thời lượng pin."
+      },
+      {
+        id: "sp-02",
+        title: "Tiêu Sọ Đắk Lắk Sấy Giòn Lá Chanh Thượng Hạng (Hũ 500g)",
+        category: "nong_san",
+        price: 185000,
+        originalPrice: 245000,
+        discount: "-24%",
+        isMall: true,
+        isFlashSale: true,
+        soldCount: 19500,
+        rating: 5.0,
+        reviewsCount: 3890,
+        image: "https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=600&auto=format&fit=crop&q=80",
+        location: "Đắk Lắk",
+        description: "Hạt tiêu sọ tuyển chọn chín già từ thủ phủ tiêu Tây Nguyên, kết hợp lá chanh sấy giòn rụm và ớt xiêm cay nồng. Chấm gà luộc, hải sản hoặc thịt nướng ngon chuẩn vị."
+      },
+      {
+        id: "sp-03",
+        title: "Thịt Bò Wagyu A5 Nhật Bản Thăn Nội Tenderloin (Hộp 1kg)",
+        category: "nong_san",
+        price: 5200000,
+        originalPrice: 6500000,
+        discount: "-20%",
+        isMall: true,
+        isFlashSale: false,
+        soldCount: 2310,
+        rating: 5.0,
+        reviewsCount: 420,
+        image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop&q=80",
+        location: "Hà Nội",
+        description: "Thịt bò Wagyu chuẩn chứng nhận hạng A5 nhập khẩu nguyên khối từ tỉnh Miyazaki Nhật Bản. Vân mỡ cẩm thạch hoàn hảo, tan chảy mềm mịn trong miệng khi nướng áp chảo."
+      },
+      {
+        id: "sp-04",
+        title: "Tai Nghe Chống Ồn Không Dây Sony WH-1000XM5 Chính Hãng",
+        category: "cong_nghe",
+        price: 6890000,
+        originalPrice: 8490000,
+        discount: "-18%",
+        isMall: true,
+        isFlashSale: true,
+        soldCount: 4120,
+        rating: 4.9,
+        reviewsCount: 890,
+        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop&q=80",
+        location: "Hà Nội",
+        description: "Công nghệ chống ồn hàng đầu thế giới với 2 bộ xử lý và 8 micro. Chất lượng âm thanh chuẩn Hi-Res Audio, đàm thoại trong trẻo lọc gió và pin lên đến 30 giờ."
+      },
+      {
+        id: "sp-05",
+        title: "Nồi Chiên Không Dầu Điện Tử Philips XXL HD9650/91 (7.2L)",
+        category: "gia_dung",
+        price: 4990000,
+        originalPrice: 7290000,
+        discount: "-31%",
+        isMall: true,
+        isFlashSale: true,
+        soldCount: 12400,
+        rating: 4.8,
+        reviewsCount: 2150,
+        image: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=600&auto=format&fit=crop&q=80",
+        location: "TP. Hồ Chí Minh",
+        description: "Công nghệ Twin TurboStar loại bỏ đến 90% dầu mỡ dư thừa. Dung tích siêu lớn chiên vừa cả con gà nguyên con, công suất 2225W làm chín nhanh giòn rụm bên ngoài mọng nước bên trong."
+      },
+      {
+        id: "sp-06",
+        title: "Sầu Riêng Musang King Malaysia Tươi Nguyên Trái Chuẩn Loại 1",
+        category: "nong_san",
+        price: 1350000,
+        originalPrice: 1650000,
+        discount: "-18%",
+        isMall: true,
+        isFlashSale: false,
+        soldCount: 6800,
+        rating: 4.9,
+        reviewsCount: 1320,
+        image: "https://images.unsplash.com/photo-1587132137056-bfbf0166836e?w=600&auto=format&fit=crop&q=80",
+        location: "Lâm Đồng",
+        description: "Vua của các loại sầu riêng nhập khẩu trực tiếp. Cơm vàng óng, hạt lép dẹt, vị ngọt đậm pha chút đắng nhẹ đặc trưng và hương thơm nồng nàn quý tộc."
+      },
+      {
+        id: "sp-07",
+        title: "MacBook Air 15 inch Apple M3 (16GB RAM / 512GB SSD)",
+        category: "cong_nghe",
+        price: 36990000,
+        originalPrice: 39990000,
+        discount: "-7%",
+        isMall: true,
+        isFlashSale: false,
+        soldCount: 1450,
+        rating: 5.0,
+        reviewsCount: 310,
+        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&auto=format&fit=crop&q=80",
+        location: "TP. Hồ Chí Minh",
+        description: "Màn hình Liquid Retina 15.3 inch rực rỡ, chip Apple M3 siêu tốc độ xử lý đồ họa mượt mà, thiết kế nhôm nguyên khối siêu mỏng 11.5mm với thời lượng pin 18 giờ."
+      },
+      {
+        id: "sp-08",
+        title: "Robot Hút Bụi Lau Nhà Dreame L20 Ultra Tự Đổ Rác & Giặt Giẻ",
+        category: "gia_dung",
+        price: 18900000,
+        originalPrice: 24900000,
+        discount: "-24%",
+        isMall: true,
+        isFlashSale: true,
+        soldCount: 3200,
+        rating: 4.9,
+        reviewsCount: 640,
+        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&fit=crop&q=80",
+        location: "Hà Nội",
+        description: "Lực hút cực khủng 7000Pa, công nghệ xòe giẻ lau MopExtend sát chân tường, trạm sạc tự động sấy khô giẻ lau bằng khí nóng và khử trùng nước ion bạc bảo vệ sàn nhà."
+      },
+      {
+        id: "sp-09",
+        title: "Yến Sào Khánh Hòa Tinh Chế Rút Lông Xuất Khẩu (Hộp 100g)",
+        category: "nong_san",
+        price: 4500000,
+        originalPrice: 5500000,
+        discount: "-18%",
+        isMall: true,
+        isFlashSale: false,
+        soldCount: 5200,
+        rating: 5.0,
+        reviewsCount: 1100,
+        image: "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=600&auto=format&fit=crop&q=80",
+        location: "Khánh Hòa",
+        description: "Tổ yến đảo thiên nhiên Khánh Hòa nguyên chất 100%, sợi yến dày dặn giòn dai, chưng nở nhiều. Tặng kèm đường phèn, táo đỏ Tân Cương và hạt sen Huế."
+      },
+      {
+        id: "sp-10",
+        title: "Đồng Hồ Nam Tissot Le Locle Powermatic 80 Thụy Sĩ",
+        category: "thoi_trang",
+        price: 15400000,
+        originalPrice: 18900000,
+        discount: "-18%",
+        isMall: true,
+        isFlashSale: false,
+        soldCount: 980,
+        rating: 4.9,
+        reviewsCount: 210,
+        image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&auto=format&fit=crop&q=80",
+        location: "TP. Hồ Chí Minh",
+        description: "Mặt số vân Guilloché cổ điển, bộ máy tự động Thụy Sĩ Powermatic 80 trữ cót lên đến 80 giờ. Mặt kính Sapphire chống trầy xước và vỏ thép không gỉ 316L sang trọng."
+      },
+      {
+        id: "sp-11",
+        title: "Cà Phê Arabica Cầu Đất Đà Lạt Rang Mộc Single Origin (Túi 500g)",
+        category: "nong_san",
+        price: 260000,
+        originalPrice: 320000,
+        discount: "-18%",
+        isMall: true,
+        isFlashSale: true,
+        soldCount: 22400,
+        rating: 4.9,
+        reviewsCount: 4890,
+        image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&auto=format&fit=crop&q=80",
+        location: "Lâm Đồng",
+        description: "Hạt cà phê trồng ở độ cao 1.650m tại Cầu Đất, hái chín chọn lọc tay 100%. Hương thơm hoa trái thanh tao, hậu vị ngọt sâu lắng, thích hợp pha Pour-over hoặc Espresso."
+      },
+      {
+        id: "sp-12",
+        title: "Máy Sấy Tóc Tạo Kiểu Đa Năng Dyson Supersonic Nural (Đồng/Hồng)",
+        category: "gia_dung",
+        price: 12990000,
+        originalPrice: 14990000,
+        discount: "-13%",
+        isMall: true,
+        isFlashSale: false,
+        soldCount: 1650,
+        rating: 5.0,
+        reviewsCount: 480,
+        image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&auto=format&fit=crop&q=80",
+        location: "Hà Nội",
+        description: "Cảm biến Nural thông minh tự động điều chỉnh nhiệt độ bảo vệ da đầu và độ bóng tự nhiên của tóc. Động cơ V9 tốc độ 110.000 vòng/phút sấy khô siêu nhanh."
+      },
+      {
+        id: "sp-13",
+        title: "Bàn Phím Cơ Không Dây Keychron Q1 Pro QMK/VIA Bản Nhôm",
+        category: "cong_nghe",
+        price: 4390000,
+        originalPrice: 4990000,
+        discount: "-12%",
+        isMall: true,
+        isFlashSale: false,
+        soldCount: 2890,
+        rating: 4.9,
+        reviewsCount: 520,
+        image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&auto=format&fit=crop&q=80",
+        location: "TP. Hồ Chí Minh",
+        description: "Thân nhôm CNC 6063 nguyên khối, kết nối Bluetooth 5.1 & Type-C, núm xoay đa chức năng, hỗ trợ lập trình keymap qua QMK/VIA và hot-swap switch tiện lợi."
+      },
+      {
+        id: "sp-14",
+        title: "Giày Thể Thao Sneaker Adidas Samba OG White Black Chính Hãng",
+        category: "thoi_trang",
+        price: 2790000,
+        originalPrice: 3200000,
+        discount: "-13%",
+        isMall: true,
+        isFlashSale: true,
+        soldCount: 18900,
+        rating: 4.9,
+        reviewsCount: 3950,
+        image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=80",
+        location: "TP. Hồ Chí Minh",
+        description: "Biểu tượng thời trang đường phố vượt thời gian. Thân giày bằng da mềm kết hợp da lộn mũi chữ T kinh điển, đế cao su gum tự nhiên bám đường cực êm."
+      },
+      {
+        id: "sp-15",
+        title: "Máy Pha Cà Phê Gia Đình DeLonghi Dedica EC685.M Kim Loại",
+        category: "gia_dung",
+        price: 6490000,
+        originalPrice: 8290000,
+        discount: "-21%",
+        isMall: true,
+        isFlashSale: false,
+        soldCount: 4500,
+        rating: 4.8,
+        reviewsCount: 920,
+        image: "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=600&auto=format&fit=crop&q=80",
+        location: "Hà Nội",
+        description: "Bề ngang nhỏ gọn chỉ 15cm, áp suất bơm 15 bar chuẩn Ý cho lớp Crema dày mịn. Vòi đánh sữa truyền thống tạo bọt sữa bông xốp cho Cappuccino và Latte nghệ thuật."
+      },
+      {
+        id: "sp-16",
+        title: "Áo Polo Nam Classic Ralph Lauren Custom Slim Fit Cao Cấp",
+        category: "thoi_trang",
+        price: 1950000,
+        originalPrice: 2450000,
+        discount: "-20%",
+        isMall: true,
+        isFlashSale: false,
+        soldCount: 7120,
+        rating: 4.9,
+        reviewsCount: 1420,
+        image: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=600&auto=format&fit=crop&q=80",
+        location: "TP. Hồ Chí Minh",
+        description: "Chất liệu cotton dệt mắt chim (pique) thoáng mát thấm hút mồ hôi. Logo người chơi mã cầu thêu tinh xảo trên ngực trái, form dáng thanh lịch đứng form."
+      },
+      {
+        id: "sp-17",
+        title: "Kính Mát Ray-Ban Aviator Classic Xanh Rau Muống G-15",
+        category: "thoi_trang",
+        price: 3890000,
+        originalPrice: 4790000,
+        discount: "-18%",
+        isMall: true,
+        isFlashSale: false,
+        soldCount: 3100,
+        rating: 5.0,
+        reviewsCount: 670,
+        image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&auto=format&fit=crop&q=80",
+        location: "Hà Nội",
+        description: "Tròng kính pha lê G-15 độc quyền ngăn chặn 100% tia UV và ánh sáng xanh có hại. Gọng kim loại mạ vàng sáng bóng, đệm mũi êm ái phong cách phi công bất hủ."
+      },
+      {
+        id: "sp-18",
+        title: "Nồi Gang Đúc Tráng Men Le Creuset Signature Round Pháp (24cm)",
+        category: "gia_dung",
+        price: 8900000,
+        originalPrice: 10500000,
+        discount: "-15%",
+        isMall: true,
+        isFlashSale: false,
+        soldCount: 1100,
+        rating: 5.0,
+        reviewsCount: 230,
+        image: "https://images.unsplash.com/photo-1584990347449-399a9a30b42f?w=600&auto=format&fit=crop&q=80",
+        location: "TP. Hồ Chí Minh",
+        description: "Biểu tượng ẩm thực Pháp sản xuất thủ công từ năm 1925. Khả năng giữ nhiệt hoàn hảo giúp món kho hầm mềm nhừ đậm vị, men gốm siêu bền bảo hành trọn đời."
+      }
+    ];
+
+    const CATEGORIES = [
+      { id: "all", name: "Tất Cả", icon: "✨" },
+      { id: "cong_nghe", name: "Công Nghệ & Điện Tử", icon: "💻" },
+      { id: "nong_san", name: "Nông Sản & Đặc Sản", icon: "🌾" },
+      { id: "gia_dung", name: "Gia Dụng Thông Minh", icon: "🍳" },
+      { id: "thoi_trang", name: "Thời Trang & Đồng Hồ", icon: "👗" }
+    ];
+
+    // App State Management
+    let state = {
+      products: [],
+      cart: [],
+      orders: [],
+      selectedCategory: "all",
+      searchQuery: "",
+      sortMode: "popular",
+      priceFilter: "all",
+      mallOnly: false,
+      flashSaleOnly: false,
+      activeVoucher: null,
+      currentQuickViewItem: null
+    };
+
+    // STORAGE KEY
+    const STORAGE_KEY = "shopee_premier_mall_v2";
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          state.products = parsed.products || INITIAL_PRODUCTS;
+          state.cart = parsed.cart || [];
+          state.orders = parsed.orders || [];
+          state.activeVoucher = parsed.activeVoucher || null;
+        } else {
+          state.products = [...INITIAL_PRODUCTS];
+          state.cart = [];
+          state.orders = [];
+        }
+      } catch (e) {
+        state.products = [...INITIAL_PRODUCTS];
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          products: state.products,
+          cart: state.cart,
+          orders: state.orders,
+          activeVoucher: state.activeVoucher
+        }));
+      } catch (e) {
+        console.error("Storage save failed", e);
+      }
+      updateCartBadges();
+      updateOrderBadges();
+    }
+
+    function formatVND(amount) {
+      return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount).replace('₫', '₫');
+    }
+
+    // Toast Notifications
+    function showToast(message, type = "success") {
+      const container = document.getElementById("toastContainer");
+      const toast = document.createElement("div");
+      toast.className = `px-4 py-2.5 rounded-2xl text-xs font-bold shadow-xl transition-all duration-300 flex items-center gap-2 pointer-events-auto transform translate-y-2 opacity-0 ${
+        type === 'success' ? 'bg-slate-900 text-white border border-slate-700' : 'bg-rose-600 text-white'
+      }`;
+      toast.innerHTML = `
+        <span>${type === 'success' ? '✅' : '⚠️'}</span>
+        <span>${message}</span>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      }, 10);
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // RENDER FUNCTIONS
+    function renderCategoryPills() {
+      const container = document.getElementById("categoryPillList");
+      container.innerHTML = CATEGORIES.map(cat => {
+        const isActive = state.selectedCategory === cat.id && !state.mallOnly && !state.flashSaleOnly;
+        return `
+          <button onclick="filterByCategory('${cat.id}')" 
+            class="px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+              isActive 
+                ? 'bg-[#ee4d2d] text-white shadow-md shadow-orange-900/20' 
+                : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+            }">
+            <span>${cat.icon}</span>
+            <span>${cat.name}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function getFilteredProducts() {
+      let list = [...state.products];
+
+      if (state.selectedCategory !== "all") {
+        list = list.filter(p => p.category === state.selectedCategory);
+      }
+      if (state.mallOnly) {
+        list = list.filter(p => p.isMall);
+      }
+      if (state.flashSaleOnly) {
+        list = list.filter(p => p.isFlashSale);
+      }
+      if (state.searchQuery.trim()) {
+        const q = state.searchQuery.toLowerCase().trim();
+        list = list.filter(p => 
+          p.title.toLowerCase().includes(q) || 
+          p.description.toLowerCase().includes(q) ||
+          p.location.toLowerCase().includes(q)
+        );
+      }
+      if (state.priceFilter === "under_500k") {
+        list = list.filter(p => p.price < 500000);
+      } else if (state.priceFilter === "500k_2m") {
+        list = list.filter(p => p.price >= 500000 && p.price <= 2000000);
+      } else if (state.priceFilter === "2m_10m") {
+        list = list.filter(p => p.price > 2000000 && p.price <= 10000000);
+      } else if (state.priceFilter === "above_10m") {
+        list = list.filter(p => p.price > 10000000);
+      }
+
+      // Sort
+      if (state.sortMode === "popular") {
+        list.sort((a, b) => b.soldCount - a.soldCount);
+      } else if (state.sortMode === "best_seller") {
+        list.sort((a, b) => b.soldCount - a.soldCount);
+      } else if (state.sortMode === "price_asc") {
+        list.sort((a, b) => a.price - b.price);
+      } else if (state.sortMode === "price_desc") {
+        list.sort((a, b) => b.price - a.price);
+      }
+
+      return list;
+    }
+
+    function renderFlashSale() {
+      const container = document.getElementById("flashSaleContainer");
+      const flashItems = state.products.filter(p => p.isFlashSale).slice(0, 6);
+      container.innerHTML = flashItems.map(item => `
+        <div onclick="openQuickView('${item.id}')" class="group bg-slate-50 hover:bg-white rounded-2xl p-2.5 border border-slate-100 hover:border-orange-200 transition-all cursor-pointer shadow-xs hover:shadow-card">
+          <div class="relative aspect-square rounded-xl overflow-hidden bg-slate-200 mb-2">
+            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600'">
+            <span class="absolute top-1.5 left-1.5 bg-[#d0011b] text-white text-[10px] font-black px-1.5 py-0.2 rounded uppercase">
+              ${item.discount}
+            </span>
+          </div>
+          <p class="text-xs font-black text-[#ee4d2d] leading-none mb-1">${formatVND(item.price)}</p>
+          <div class="w-full bg-orange-100 rounded-full h-3 overflow-hidden relative">
+            <div class="bg-gradient-to-r from-red-600 to-orange-500 h-full rounded-full" style="width: 78%"></div>
+            <span class="absolute inset-0 flex items-center justify-center text-[9px] font-black text-white drop-shadow">ĐÃ BÁN 78%</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderProductGrid() {
+      const container = document.getElementById("productGrid");
+      const emptyState = document.getElementById("emptyCatalogState");
+      const products = getFilteredProducts();
+
+      if (products.length === 0) {
+        container.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        return;
+      }
+
+      emptyState.classList.add("hidden");
+      container.innerHTML = products.map(item => `
+        <div class="group bg-white rounded-2xl border border-slate-100 hover:border-orange-300 shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col overflow-hidden relative">
+          
+          <!-- Image Container with Badges -->
+          <div class="relative aspect-square bg-slate-100 overflow-hidden cursor-pointer" onclick="openQuickView('${item.id}')">
+            <img src="${item.image}" alt="${item.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600'">
+            
+            <!-- Badges -->
+            <div class="absolute top-2 left-2 flex flex-col gap-1 items-start">
+              ${item.isMall ? '<span class="bg-[#d0011b] text-white text-[10px] font-black px-1.5 py-0.5 rounded shadow-sm uppercase tracking-wider">MALL</span>' : '<span class="bg-orange-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow-sm">Yêu thích+</span>'}
+              <span class="bg-amber-400 text-slate-900 text-[10px] font-black px-1.5 py-0.5 rounded shadow-sm">${item.discount}</span>
+            </div>
+
+            <!-- Free shipping tag -->
+            <div class="absolute bottom-2 left-2">
+              <span class="bg-emerald-600/90 backdrop-blur-xs text-white text-[9px] font-bold px-1.5 py-0.5 rounded">Freeship Xtra</span>
+            </div>
+          </div>
+
+          <!-- Product Meta & Price -->
+          <div class="p-3 flex-1 flex flex-col justify-between space-y-2">
+            <div>
+              <h3 onclick="openQuickView('${item.id}')" class="text-xs font-bold text-slate-800 line-clamp-2 leading-relaxed hover:text-[#ee4d2d] cursor-pointer" title="${item.title}">
+                ${item.title}
+              </h3>
+            </div>
+
+            <div class="space-y-1">
+              <!-- Price Display -->
+              <div class="flex items-baseline gap-1.5 flex-wrap">
+                <span class="text-xs sm:text-sm font-black text-[#ee4d2d]">${formatVND(item.price)}</span>
+                <span class="text-[10px] text-slate-400 line-through">${formatVND(item.originalPrice)}</span>
+              </div>
+
+              <!-- Rating & Sold Count -->
+              <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1">
+                <span class="text-amber-500 font-bold flex items-center gap-0.5">
+                  ★ <span class="text-slate-700">${item.rating}</span>
+                </span>
+                <span>Đã bán ${item.soldCount > 1000 ? (item.soldCount / 1000).toFixed(1) + 'k' : item.soldCount}</span>
+              </div>
+
+              <!-- Location Tag -->
+              <div class="text-[10px] text-slate-400 flex items-center justify-end">
+                <span>${item.location}</span>
+              </div>
+            </div>
+
+            <!-- Action Add to Cart Button -->
+            <button onclick="addToCart('${item.id}', 1)" class="w-full mt-2 bg-orange-50 hover:bg-[#ee4d2d] text-[#ee4d2d] hover:text-white py-1.5 rounded-xl text-xs font-black transition-colors flex items-center justify-center gap-1">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              <span>Thêm Giỏ Hàng</span>
+            </button>
+          </div>
+
+        </div>
+      `).join('');
+    }
+
+    // CART OPERATIONS
+    function addToCart(productId, quantity = 1) {
+      const product = state.products.find(p => p.id === productId);
+      if (!product) return;
+
+      const existing = state.cart.find(c => c.productId === productId);
+      if (existing) {
+        existing.quantity += quantity;
+      } else {
+        state.cart.push({
+          productId: product.id,
+          title: product.title,
+          price: product.price,
+          image: product.image,
+          quantity: quantity
+        });
+      }
+      saveState();
+      renderCartDrawer();
+      showToast(`Đã thêm "${product.title.slice(0, 30)}..." vào giỏ!`);
+    }
+
+    function updateCartQuantity(productId, delta) {
+      const item = state.cart.find(c => c.productId === productId);
+      if (!item) return;
+      item.quantity += delta;
+      if (item.quantity <= 0) {
+        state.cart = state.cart.filter(c => c.productId !== productId);
+      }
+      saveState();
+      renderCartDrawer();
+    }
+
+    function removeFromCart(productId) {
+      state.cart = state.cart.filter(c => c.productId !== productId);
+      saveState();
+      renderCartDrawer();
+      showToast("Đã xóa món đồ khỏi giỏ hàng.");
+    }
+
+    function calculateCartTotals() {
+      const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      let discount = 0;
+      if (state.activeVoucher === "MALL100K") {
+        discount = Math.min(100000, subtotal);
+      } else if (state.activeVoucher === "SHOPEE50K") {
+        discount = Math.min(50000, subtotal);
+      } else if (state.activeVoucher === "FREESHIP") {
+        discount = 0; // free shipping already 0
+      }
+      const total = Math.max(0, subtotal - discount);
+      return { subtotal, discount, total };
+    }
+
+    function renderCartDrawer() {
+      const list = document.getElementById("cartItemsList");
+      const countLabel = document.getElementById("cartDrawerCount");
+      countLabel.textContent = state.cart.reduce((s, i) => s + i.quantity, 0);
+
+      if (state.cart.length === 0) {
+        list.innerHTML = `
+          <div class="text-center py-16 space-y-3">
+            <div class="text-4xl">🛒</div>
+            <p class="text-xs font-bold text-slate-700">Giỏ hàng của bạn đang trống</p>
+            <p class="text-[11px] text-slate-400">Hãy dạo xem các sản phẩm chính hãng và chọn món bạn thích nhé!</p>
+          </div>
+        `;
+      } else {
+        list.innerHTML = state.cart.map(item => `
+          <div class="flex items-center gap-3 p-2.5 bg-white rounded-2xl border border-slate-100 shadow-xs">
+            <img src="${item.image}" alt="${item.title}" class="w-14 h-14 rounded-xl object-cover bg-slate-100 flex-shrink-0">
+            <div class="flex-1 min-w-0">
+              <h4 class="text-xs font-bold text-slate-800 line-clamp-1">${item.title}</h4>
+              <p class="text-xs font-black text-[#ee4d2d] mt-0.5">${formatVND(item.price)}</p>
+              <!-- Qty stepper -->
+              <div class="flex items-center gap-2 mt-1.5">
+                <button onclick="updateCartQuantity('${item.productId}', -1)" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-xs">-</button>
+                <span class="text-xs font-bold text-slate-900 px-1">${item.quantity}</span>
+                <button onclick="updateCartQuantity('${item.productId}', 1)" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-xs">+</button>
+              </div>
+            </div>
+            <button onclick="removeFromCart('${item.productId}')" class="p-1.5 text-slate-400 hover:text-rose-600 transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </div>
+        `).join('');
+      }
+
+      // Update calculations
+      const { subtotal, discount, total } = calculateCartTotals();
+      document.getElementById("cartSubtotalText").textContent = formatVND(subtotal);
+      document.getElementById("cartDiscountText").textContent = discount > 0 ? `-${formatVND(discount)}` : "-0 ₫";
+      document.getElementById("cartTotalText").textContent = formatVND(total);
+
+      // Voucher box state
+      const voucherBox = document.getElementById("activeVoucherBox");
+      const voucherText = document.getElementById("activeVoucherText");
+      if (state.activeVoucher) {
+        voucherBox.classList.remove("hidden");
+        voucherText.textContent = `Đang áp dụng: Mã ${state.activeVoucher}`;
+      } else {
+        voucherBox.classList.add("hidden");
+      }
+    }
+
+    function updateCartBadges() {
+      const count = state.cart.reduce((s, i) => s + i.quantity, 0);
+      document.getElementById("cartBadgeCount").textContent = count;
+    }
+
+    function updateOrderBadges() {
+      const count = state.orders.length;
+      document.getElementById("orderBadgeCount").textContent = count;
+      document.getElementById("orderHeaderBadge").textContent = `${count} đơn`;
+    }
+
+    function openCartDrawer() {
+      renderCartDrawer();
+      document.getElementById("cartDrawerBackdrop").classList.remove("opacity-0", "pointer-events-none");
+      document.getElementById("cartDrawer").classList.remove("translate-x-full");
+    }
+
+    function closeCartDrawer() {
+      document.getElementById("cartDrawerBackdrop").classList.add("opacity-0", "pointer-events-none");
+      document.getElementById("cartDrawer").classList.add("translate-x-full");
+    }
+
+    // QUICK VIEW MODAL
+    function openQuickView(productId) {
+      const product = state.products.find(p => p.id === productId);
+      if (!product) return;
+      state.currentQuickViewItem = product;
+
+      const content = document.getElementById("quickViewContent");
+      content.innerHTML = `
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div class="space-y-3">
+            <div class="aspect-square rounded-2xl overflow-hidden bg-slate-100 border border-slate-200">
+              <img src="${product.image}" alt="${product.title}" class="w-full h-full object-cover">
+            </div>
+            <div class="flex items-center gap-2 text-xs font-bold text-slate-500">
+              <span>📍 Xuất xứ / Vị trí kho:</span>
+              <span class="text-slate-800">${product.location}</span>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                ${product.isMall ? '<span class="bg-[#d0011b] text-white text-[10px] font-black px-2 py-0.5 rounded uppercase">Shopee Mall</span>' : ''}
+                <span class="text-xs bg-orange-100 text-[#ee4d2d] font-bold px-2 py-0.5 rounded">Freeship Xtra 0Đ</span>
+              </div>
+              <h2 class="text-base sm:text-lg font-black text-slate-900 leading-snug">${product.title}</h2>
+              <div class="flex items-center gap-2 mt-2 text-xs text-slate-500">
+                <span class="text-amber-500 font-bold">★ ${product.rating}</span>
+                <span>•</span>
+                <span>${product.reviewsCount} Đánh giá</span>
+                <span>•</span>
+                <span>Đã bán ${product.soldCount}</span>
+              </div>
+            </div>
+
+            <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-100 space-y-1">
+              <div class="flex items-baseline gap-2">
+                <span class="text-2xl font-black text-[#ee4d2d]">${formatVND(product.price)}</span>
+                <span class="text-xs text-slate-400 line-through">${formatVND(product.originalPrice)}</span>
+                <span class="text-xs font-black text-rose-600 bg-rose-100 px-1.5 py-0.5 rounded">${product.discount}</span>
+              </div>
+              <p class="text-[11px] text-emerald-700 font-semibold">✨ Cam kết chính hãng 100% • Hoàn tiền gấp đôi nếu hàng giả</p>
+            </div>
+
+            <div class="text-xs text-slate-600 leading-relaxed">
+              <strong class="text-slate-900 block mb-1">Mô tả sản phẩm:</strong>
+              <p>${product.description}</p>
+            </div>
+
+            <div class="pt-2 flex items-center gap-3">
+              <button onclick="addToCart('${product.id}', 1); closeQuickView();" class="flex-1 bg-orange-50 hover:bg-orange-100 text-[#ee4d2d] py-3 rounded-2xl text-xs font-black transition-colors border border-orange-200 flex items-center justify-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                <span>Thêm Vào Giỏ</span>
+              </button>
+              <button onclick="addToCart('${product.id}', 1); closeQuickView(); openCheckoutModal();" class="flex-1 bg-[#ee4d2d] hover:bg-[#d73211] text-white py-3 rounded-2xl text-xs font-black shadow-lg shadow-orange-900/20 transition-transform active:scale-95 flex items-center justify-center gap-1.5">
+                <span>Mua Ngay</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      document.getElementById("quickViewModal").classList.remove("hidden");
+    }
+
+    function closeQuickView() {
+      document.getElementById("quickViewModal").classList.add("hidden");
+    }
+
+    // CHECKOUT FLOW & VIETQR
+    function openCheckoutModal() {
+      if (state.cart.length === 0) {
+        showToast("Giỏ hàng của bạn đang trống!", "error");
+        return;
+      }
+      closeCartDrawer();
+      const { total } = calculateCartTotals();
+      document.getElementById("checkoutTotalAmount").textContent = formatVND(total);
+
+      // Generate VietQR
+      const qrImg = document.getElementById("vietQrImg");
+      const orderDesc = `DH${Date.now().toString().slice(-6)}`;
+      const qrUrl = `https://img.vietqr.io/image/MB-0345678999-compact2.png?amount=${total}&addInfo=${orderDesc}&accountName=GIA%20HAN%20PHAT`;
+      qrImg.src = qrUrl;
+
+      document.getElementById("checkoutModal").classList.remove("hidden");
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById("checkoutModal").classList.add("hidden");
+    }
+
+    function togglePaymentQR(show) {
+      document.getElementById("vietQrBox").style.display = show ? "block" : "none";
+    }
+
+    function confirmPlaceOrder() {
+      const name = document.getElementById("orderCustomerName").value.trim() || "Châu Ngọc Bình";
+      const phone = document.getElementById("orderCustomerPhone").value.trim() || "0918.234.567";
+      const address = document.getElementById("orderCustomerAddress").value.trim() || "TP. Hồ Chí Minh";
+      const methodRadio = document.querySelector('input[name="paymentMethod"]:checked');
+      const paymentMethod = methodRadio ? methodRadio.value : "vietqr";
+
+      const { subtotal, discount, total } = calculateCartTotals();
+      const orderId = `SP-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+      const newOrder = {
+        orderId: orderId,
+        date: new Date().toLocaleString('vi-VN'),
+        customerName: name,
+        customerPhone: phone,
+        customerAddress: address,
+        paymentMethod: paymentMethod === 'vietqr' ? 'Chuyển khoản VietQR' : (paymentMethod === 'cod' ? 'Thanh toán COD' : 'Ví ShopeePay'),
+        status: "Đang xử lý & Đóng gói",
+        items: [...state.cart],
+        subtotal: subtotal,
+        discount: discount,
+        total: total,
+        appliedVoucher: state.activeVoucher
+      };
+
+      state.orders.unshift(newOrder);
+      state.cart = [];
+      state.activeVoucher = null;
+      saveState();
+
+      closeCheckoutModal();
+      showToast(`🎉 Đặt hàng thành công! Mã đơn: ${orderId}`);
+      switchNavTab('orders');
+    }
+
+    // ORDER HISTORY RENDER
+    function renderOrdersView() {
+      const container = document.getElementById("ordersListContainer");
+      const emptyState = document.getElementById("emptyOrdersState");
+
+      if (state.orders.length === 0) {
+        container.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        return;
+      }
+
+      emptyState.classList.add("hidden");
+      container.innerHTML = state.orders.map(order => `
+        <div class="bg-white rounded-3xl p-5 shadow-card border border-slate-100 space-y-4">
+          
+          <!-- Order Top Header -->
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-3">
+              <span class="font-black text-slate-900 text-sm">Mã đơn: <span class="text-[#ee4d2d]">${order.orderId}</span></span>
+              <span class="text-slate-400">•</span>
+              <span class="text-xs text-slate-500">${order.date}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs bg-amber-100 text-amber-800 font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                <span>${order.status}</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Items in order -->
+          <div class="space-y-3">
+            ${order.items.map(it => `
+              <div class="flex items-center justify-between text-xs py-1">
+                <div class="flex items-center gap-3">
+                  <img src="${it.image}" alt="${it.title}" class="w-12 h-12 rounded-xl object-cover bg-slate-100">
+                  <div>
+                    <h5 class="font-bold text-slate-800 line-clamp-1">${it.title}</h5>
+                    <p class="text-slate-400 text-[11px]">Số lượng: x${it.quantity}</p>
+                  </div>
+                </div>
+                <span class="font-black text-slate-900">${formatVND(it.price * it.quantity)}</span>
+              </div>
+            `).join('')}
+          </div>
+
+          <!-- Order Summary Footer -->
+          <div class="pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-slate-50 p-3.5 rounded-2xl">
+            <div class="text-xs text-slate-600 space-y-0.5">
+              <p>Người nhận: <strong>${order.customerName}</strong> (${order.customerPhone})</p>
+              <p>Địa chỉ: <strong>${order.customerAddress}</strong></p>
+              <p>Hình thức: <strong>${order.paymentMethod}</strong></p>
+            </div>
+            <div class="text-right">
+              <span class="text-xs text-slate-500">Tổng thanh toán:</span>
+              <p class="text-lg font-black text-[#ee4d2d]">${formatVND(order.total)}</p>
+            </div>
+          </div>
+
+        </div>
+      `).join('');
+    }
+
+    // EXCEL EXPORT (UTF-8 BOM COMPLIANT)
+    function exportOrdersCSV() {
+      if (state.orders.length === 0) {
+        showToast("Chưa có đơn hàng nào để xuất Excel!", "error");
+        return;
+      }
+      const headers = ["Mã Đơn Hàng", "Ngày Đặt", "Khách Hàng", "Số Điện Thoại", "Địa Chỉ", "Sản Phẩm", "Số Lượng", "Phương Thức", "Tổng Tiền (VNĐ)"];
+      const rows = [];
+      state.orders.forEach(o => {
+        o.items.forEach(it => {
+          rows.push([
+            `"${o.orderId}"`,
+            `"${o.date}"`,
+            `"${o.customerName.replace(/"/g, '""')}"`,
+            `"${o.customerPhone}"`,
+            `"${o.customerAddress.replace(/"/g, '""')}"`,
+            `"${it.title.replace(/"/g, '""')}"`,
+            it.quantity,
+            `"${o.paymentMethod}"`,
+            o.total
+          ].join(","));
+        });
+      });
+      const csvContent = "\uFEFF" + headers.join(",") + "\r\n" + rows.join("\r\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Danh_Sach_Don_Hang_ShopeePro_${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      showToast("Đã tải xuống file Excel UTF-8 BOM thành công!");
+    }
+
+    // JSON BACKUP & RESTORE
+    function exportDataJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state, null, 2));
+      const a = document.createElement('a');
+      a.href = dataStr;
+      a.download = `Shopee_Premier_Backup_${new Date().toISOString().slice(0,10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast("Đã sao lưu dữ liệu ra file JSON!");
+      toggleSettingsMenu();
+    }
+
+    function importDataJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed.products) state.products = parsed.products;
+          if (parsed.cart) state.cart = parsed.cart;
+          if (parsed.orders) state.orders = parsed.orders;
+          saveState();
+          renderCategoryPills();
+          renderProductGrid();
+          renderFlashSale();
+          renderCartDrawer();
+          renderOrdersView();
+          showToast("Khôi phục dữ liệu từ file JSON thành công!");
+        } catch (err) {
+          showToast("File JSON không hợp lệ!", "error");
+        }
+      };
+      reader.readAsText(file);
+      toggleSettingsMenu();
+    }
+
+    function resetDefaultData() {
+      if (confirm("Anh có chắc muốn đặt lại dữ liệu gốc ban đầu của Shopee Mall?")) {
+        localStorage.removeItem(STORAGE_KEY);
+        loadState();
+        renderCategoryPills();
+        renderProductGrid();
+        renderFlashSale();
+        renderCartDrawer();
+        renderOrdersView();
+        showToast("Đã khôi phục dữ liệu gốc!");
+        toggleSettingsMenu();
+      }
+    }
+
+    // VOUCHER LOGIC
+    function applyVoucherCode(code) {
+      state.activeVoucher = code;
+      saveState();
+      renderCartDrawer();
+      showToast(`Đã áp dụng thành công mã voucher: ${code}`);
+    }
+
+    function applyManualVoucher() {
+      const code = document.getElementById("voucherInput").value.trim().toUpperCase();
+      if (!code) return;
+      if (["MALL100K", "FREESHIP", "SHOPEE50K"].includes(code)) {
+        applyVoucherCode(code);
+        document.getElementById("voucherInput").value = "";
+      } else {
+        showToast("Mã giảm giá không hợp lệ hoặc đã hết lượt!", "error");
+      }
+    }
+
+    function removeVoucher() {
+      state.activeVoucher = null;
+      saveState();
+      renderCartDrawer();
+      showToast("Đã gỡ mã giảm giá.");
+    }
+
+    // NAVIGATION TABS
+    function switchNavTab(tab) {
+      const viewShopping = document.getElementById("viewShopping");
+      const viewOrders = document.getElementById("viewOrders");
+      const tabBtnOrders = document.getElementById("tabBtnOrders");
+
+      if (tab === "orders") {
+        viewShopping.classList.add("hidden");
+        viewOrders.classList.remove("hidden");
+        tabBtnOrders.classList.add("bg-white", "text-[#ee4d2d]");
+        renderOrdersView();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        viewShopping.classList.remove("hidden");
+        viewOrders.classList.add("hidden");
+        tabBtnOrders.classList.remove("bg-white", "text-[#ee4d2d]");
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    // SEARCH & FILTER HANDLERS
+    function handleGlobalSearch(val) {
+      state.searchQuery = val;
+      renderProductGrid();
+    }
+
+    function setSearchTerm(term) {
+      document.getElementById("globalSearchInput").value = term;
+      state.searchQuery = term;
+      renderProductGrid();
+      scrollToProducts();
+    }
+
+    function executeSearch() {
+      scrollToProducts();
+    }
+
+    function filterByCategory(catId) {
+      state.selectedCategory = catId;
+      state.mallOnly = false;
+      state.flashSaleOnly = false;
+      renderCategoryPills();
+      renderProductGrid();
+      scrollToProducts();
+    }
+
+    function filterByMallOnly() {
+      state.mallOnly = true;
+      state.flashSaleOnly = false;
+      renderCategoryPills();
+      renderProductGrid();
+      scrollToProducts();
+    }
+
+    function filterByFlashSale() {
+      state.flashSaleOnly = true;
+      state.mallOnly = false;
+      renderCategoryPills();
+      renderProductGrid();
+      scrollToProducts();
+    }
+
+    function setSortMode(mode) {
+      state.sortMode = mode;
+      ["sortPopular", "sortBestSeller", "sortPriceAsc", "sortPriceDesc"].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) {
+          btn.className = "px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900";
+        }
+      });
+      const activeId = mode === 'popular' ? 'sortPopular' : (mode === 'best_seller' ? 'sortBestSeller' : (mode === 'price_asc' ? 'sortPriceAsc' : 'sortPriceDesc'));
+      const activeBtn = document.getElementById(activeId);
+      if (activeBtn) {
+        activeBtn.className = "px-3 py-1.5 rounded-lg bg-white text-[#ee4d2d] shadow-sm";
+      }
+      renderProductGrid();
+    }
+
+    function handlePriceSelect(val) {
+      state.priceFilter = val;
+      renderProductGrid();
+    }
+
+    function resetFilters() {
+      state.selectedCategory = "all";
+      state.searchQuery = "";
+      state.priceFilter = "all";
+      state.mallOnly = false;
+      state.flashSaleOnly = false;
+      document.getElementById("globalSearchInput").value = "";
+      document.getElementById("priceFilterSelect").value = "all";
+      renderCategoryPills();
+      renderProductGrid();
+    }
+
+    function scrollToProducts() {
+      const section = document.getElementById("productsSection");
+      if (section) section.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function toggleSettingsMenu() {
+      const menu = document.getElementById("settingsMenu");
+      menu.classList.toggle("hidden");
+    }
+
+    // FLASH SALE LIVE COUNTDOWN CLOCK
+    function startCountdown() {
+      let secondsLeft = 2 * 3600 + 45 * 60 + 18;
+      setInterval(() => {
+        if (secondsLeft > 0) secondsLeft--;
+        const h = Math.floor(secondsLeft / 3600).toString().padStart(2, '0');
+        const m = Math.floor((secondsLeft % 3600) / 60).toString().padStart(2, '0');
+        const s = (secondsLeft % 60).toString().padStart(2, '0');
+        const elH = document.getElementById("timerHour");
+        const elM = document.getElementById("timerMin");
+        const elS = document.getElementById("timerSec");
+        if (elH) elH.textContent = h;
+        if (elM) elM.textContent = m;
+        if (elS) elS.textContent = s;
+      }, 1000);
+    }
+
+    // INITIALIZATION
+    window.addEventListener("DOMContentLoaded", () => {
+      loadState();
+      renderCategoryPills();
+      renderProductGrid();
+      renderFlashSale();
+      updateCartBadges();
+      updateOrderBadges();
+      startCountdown();
+
+      // Close settings menu when clicking outside
+      document.addEventListener('click', (e) => {
+        const menu = document.getElementById('settingsMenu');
+        const btn = document.getElementById('btnSettings');
+        if (menu && !menu.contains(e.target) && !btn.contains(e.target)) {
+          menu.classList.add('hidden');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
