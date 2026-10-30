@@ -54,7 +54,7 @@
   <!-- TOP TOAST NOTIFICATIONS -->
   <div id="toastContainer" class="fixed top-5 right-5 z-50 flex flex-col gap-2.5 pointer-events-none"></div>
 
-  <!-- 1. TOP UTILITY BAR -->
+  <!-- 1. TOP UTILITY BAR WITH AUTH INTEGRATION -->
   <div class="bg-[#d73211] text-white text-[12px] font-medium py-1.5 px-4 sm:px-8 border-b border-red-700/50">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
       <div class="flex items-center gap-4">
@@ -78,12 +78,12 @@
           <span>Thông báo</span>
         </div>
         <span class="opacity-40">|</span>
-        <!-- User Badge -->
-        <div class="flex items-center gap-2 cursor-pointer bg-white/10 hover:bg-white/20 px-2 py-0.5 rounded-full transition-all">
-          <div class="w-4 h-4 rounded-full bg-amber-400 text-slate-900 font-extrabold flex items-center justify-center text-[10px]">VIP</div>
-          <span class="font-semibold text-white">Châu Ngọc Bình</span>
-          <span class="text-[10px] bg-amber-400 text-slate-900 font-bold px-1 rounded">Gold Member</span>
+        
+        <!-- DYNAMIC AUTH / USER SECTION -->
+        <div id="topAuthContainer" class="relative">
+          <!-- Rendered dynamically by renderAuthUI() -->
         </div>
+
       </div>
     </div>
   </div>
@@ -219,7 +219,6 @@
             </button>
             <span class="text-xs text-orange-100 font-medium">Bảo đảm chính hãng bởi Shopee Mall</span>
           </div>
-          <!-- Decorative Background Elements -->
           <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
           <div class="absolute right-8 top-1/2 -translate-y-1/2 hidden sm:block opacity-25 text-9xl select-none pointer-events-none">
             🛍️
@@ -327,7 +326,6 @@
 
         <!-- Sort & Filter Bar -->
         <div class="bg-white rounded-2xl p-4 shadow-card border border-slate-100 flex flex-wrap items-center justify-between gap-4">
-          <!-- Left: Filter status tabs -->
           <div class="flex items-center gap-2">
             <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Sắp xếp:</span>
             <div class="inline-flex p-1 bg-slate-100 rounded-xl gap-1 text-xs font-semibold">
@@ -338,7 +336,6 @@
             </div>
           </div>
 
-          <!-- Right: Price Range Quick Filter -->
           <div class="flex items-center gap-2 text-xs">
             <span class="font-bold text-slate-500">Mức giá:</span>
             <select id="priceFilterSelect" onchange="handlePriceSelect(this.value)" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#ee4d2d]">
@@ -609,7 +606,168 @@
     </div>
   </div>
 
-  <!-- 7. FOOTER (SHOPEE STYLE) -->
+  <!-- 7. AUTH MODAL (ĐĂNG NHẬP / ĐĂNG KÝ SHOPEE) -->
+  <div id="authModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl relative p-6 space-y-5 overflow-hidden">
+      <!-- Close button -->
+      <button onclick="closeAuthModal()" class="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-700 rounded-full hover:bg-slate-100 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+
+      <!-- Brand in modal -->
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-[#ee4d2d] text-white flex items-center justify-center font-black text-base shadow-sm">
+          🛍️
+        </div>
+        <div>
+          <h3 class="font-black text-slate-900 text-base" id="authModalTitle">Đăng Nhập Shopee Mall</h3>
+          <p class="text-[11px] text-slate-500">Mua sắm chính hãng nhận ngàn ưu đãi</p>
+        </div>
+      </div>
+
+      <!-- Tab Switcher (Đăng Nhập vs Đăng Ký) -->
+      <div class="flex border-b border-slate-100 text-xs font-bold">
+        <button onclick="switchAuthTab('login')" id="tabAuthLogin" class="flex-1 pb-2.5 text-center text-[#ee4d2d] border-b-2 border-[#ee4d2d] transition-all">
+          Đăng Nhập
+        </button>
+        <button onclick="switchAuthTab('register')" id="tabAuthRegister" class="flex-1 pb-2.5 text-center text-slate-400 hover:text-slate-700 transition-all">
+          Đăng Ký Tài Khoản
+        </button>
+      </div>
+
+      <!-- FORM 1: LOGIN -->
+      <form id="formLogin" onsubmit="handleLoginSubmit(event)" class="space-y-3.5 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Email / Số điện thoại / Tên tài khoản</label>
+          <input type="text" id="loginUsername" placeholder="Nhập email hoặc SĐT..." required 
+            class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#ee4d2d] text-slate-900 font-semibold">
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="block font-bold text-slate-700">Mật khẩu</label>
+            <a href="#" onclick="showToast('Vui lòng liên hệ quản trị viên để lấy lại mật khẩu'); return false;" class="text-[11px] text-[#ee4d2d] hover:underline">Quên mật khẩu?</a>
+          </div>
+          <div class="relative">
+            <input type="password" id="loginPassword" placeholder="Nhập mật khẩu..." required 
+              class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#ee4d2d] text-slate-900 font-semibold">
+            <button type="button" onclick="togglePasswordVisibility('loginPassword')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs">
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full bg-[#ee4d2d] hover:bg-[#d73211] text-white py-3 rounded-2xl font-black text-xs shadow-md shadow-orange-900/20 transition-all uppercase tracking-wider">
+          ĐĂNG NHẬP
+        </button>
+
+        <!-- Quick 1-click Demo Logins -->
+        <div class="bg-orange-50/70 p-3 rounded-2xl border border-orange-100 space-y-2">
+          <p class="text-[11px] font-bold text-orange-900 text-center">⚡ Đăng Nhập Nhanh 1 Chạm (Mẫu Demo):</p>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" onclick="quickLoginUser('vip')" class="bg-white hover:bg-orange-100 text-slate-800 border border-orange-200 py-1.5 px-2 rounded-xl text-[11px] font-bold transition-all shadow-xs flex items-center justify-center gap-1">
+              <span>👑</span>
+              <span>Châu Ngọc Bình (VIP)</span>
+            </button>
+            <button type="button" onclick="quickLoginUser('guest')" class="bg-white hover:bg-orange-100 text-slate-800 border border-orange-200 py-1.5 px-2 rounded-xl text-[11px] font-bold transition-all shadow-xs flex items-center justify-center gap-1">
+              <span>🌱</span>
+              <span>Khách Mới (Thành Viên)</span>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- FORM 2: REGISTER -->
+      <form id="formRegister" onsubmit="handleRegisterSubmit(event)" class="space-y-3 text-xs hidden">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Họ và tên của bạn</label>
+          <input type="text" id="regFullName" placeholder="Ví dụ: Nguyễn Văn A" required 
+            class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#ee4d2d] text-slate-900 font-semibold">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Số điện thoại</label>
+          <input type="tel" id="regPhone" placeholder="Ví dụ: 0912 345 678" required 
+            class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#ee4d2d] text-slate-900 font-semibold">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Mật khẩu tạo mới</label>
+          <input type="password" id="regPassword" placeholder="Tối thiểu 6 ký tự..." required minlength="6"
+            class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#ee4d2d] text-slate-900 font-semibold">
+        </div>
+
+        <button type="submit" class="w-full bg-[#ee4d2d] hover:bg-[#d73211] text-white py-3 rounded-2xl font-black text-xs shadow-md shadow-orange-900/20 transition-all uppercase tracking-wider">
+          TẠO TÀI KHOẢN MỚI
+        </button>
+      </form>
+
+      <!-- Social Logins Divider -->
+      <div class="relative flex items-center justify-center my-3">
+        <span class="absolute inset-x-0 h-px bg-slate-200"></span>
+        <span class="relative bg-white px-3 text-[11px] text-slate-400 font-semibold">HOẶC TIẾP TỤC VỚI</span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2 text-xs">
+        <button type="button" onclick="quickSocialLogin('Google')" class="flex items-center justify-center gap-2 p-2 border border-slate-200 hover:bg-slate-50 rounded-xl font-bold text-slate-700 transition-colors">
+          <span>🌐</span> Google
+        </button>
+        <button type="button" onclick="quickSocialLogin('Facebook')" class="flex items-center justify-center gap-2 p-2 border border-slate-200 hover:bg-slate-50 rounded-xl font-bold text-slate-700 transition-colors">
+          <span>📘</span> Facebook
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 8. USER PROFILE MODAL (HỒ SƠ CÁ NHÂN) -->
+  <div id="profileModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl relative p-6 space-y-5 overflow-hidden">
+      <button onclick="closeProfileModal()" class="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-700 rounded-full hover:bg-slate-100 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+
+      <div class="flex items-center gap-3 pb-3 border-b border-slate-100">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-400 to-orange-500 text-slate-900 font-black text-xl flex items-center justify-center shadow-md">
+          VIP
+        </div>
+        <div>
+          <h3 class="font-black text-base text-slate-900" id="profileNameDisplay">Châu Ngọc Bình</h3>
+          <p class="text-xs text-amber-600 font-bold flex items-center gap-1">
+            <span>✨</span> <span id="profileRankDisplay">Gold Member</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Profile Form Edit -->
+      <form onsubmit="handleSaveProfile(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Họ và tên</label>
+          <input type="text" id="profFullName" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#ee4d2d] font-semibold text-slate-900">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Số điện thoại</label>
+          <input type="tel" id="profPhone" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#ee4d2d] font-semibold text-slate-900">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Email</label>
+          <input type="email" id="profEmail" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#ee4d2d] font-semibold text-slate-900">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Địa chỉ giao hàng mặc định</label>
+          <input type="text" id="profAddress" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#ee4d2d] font-medium text-slate-800">
+        </div>
+
+        <div class="pt-2 flex items-center gap-2">
+          <button type="submit" class="flex-1 bg-[#ee4d2d] hover:bg-[#d73211] text-white py-2.5 rounded-xl font-bold transition-all shadow-md">
+            Lưu Thay Đổi
+          </button>
+          <button type="button" onclick="logoutUser()" class="px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl font-bold transition-all">
+            Đăng Xuất
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 9. FOOTER (SHOPEE STYLE) -->
   <footer class="bg-white border-t border-slate-200 mt-12 text-slate-600 text-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
       <div class="space-y-3">
@@ -949,11 +1107,32 @@
       { id: "thoi_trang", name: "Thời Trang & Đồng Hồ", icon: "👗" }
     ];
 
+    // Default Demo Users
+    const DEMO_USERS = {
+      vip: {
+        name: "Châu Ngọc Bình",
+        phone: "0918.234.567",
+        email: "chaungocbinh@ghp.vn",
+        address: "Khu chế xuất Tân Thuận, Quận 7, TP. HCM",
+        rank: "Gold Member",
+        role: "VIP"
+      },
+      guest: {
+        name: "Nguyễn Văn Hùng",
+        phone: "0909.112.233",
+        email: "vanhung@gmail.com",
+        address: "123 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP. HCM",
+        rank: "Thành Viên Mới",
+        role: "MEMBER"
+      }
+    };
+
     // App State Management
     let state = {
       products: [],
       cart: [],
       orders: [],
+      currentUser: null,
       selectedCategory: "all",
       searchQuery: "",
       sortMode: "popular",
@@ -964,7 +1143,6 @@
       currentQuickViewItem: null
     };
 
-    // STORAGE KEY
     const STORAGE_KEY = "shopee_premier_mall_v2";
 
     function loadState() {
@@ -975,14 +1153,17 @@
           state.products = parsed.products || INITIAL_PRODUCTS;
           state.cart = parsed.cart || [];
           state.orders = parsed.orders || [];
+          state.currentUser = parsed.currentUser !== undefined ? parsed.currentUser : DEMO_USERS.vip;
           state.activeVoucher = parsed.activeVoucher || null;
         } else {
           state.products = [...INITIAL_PRODUCTS];
           state.cart = [];
           state.orders = [];
+          state.currentUser = DEMO_USERS.vip;
         }
       } catch (e) {
         state.products = [...INITIAL_PRODUCTS];
+        state.currentUser = DEMO_USERS.vip;
       }
     }
 
@@ -992,6 +1173,7 @@
           products: state.products,
           cart: state.cart,
           orders: state.orders,
+          currentUser: state.currentUser,
           activeVoucher: state.activeVoucher
         }));
       } catch (e) {
@@ -999,6 +1181,7 @@
       }
       updateCartBadges();
       updateOrderBadges();
+      renderAuthUI();
     }
 
     function formatVND(amount) {
@@ -1026,7 +1209,183 @@
       }, 3000);
     }
 
-    // RENDER FUNCTIONS
+    // ================= AUTHENTICATION LOGIC =================
+    function renderAuthUI() {
+      const container = document.getElementById("topAuthContainer");
+      if (!container) return;
+
+      if (state.currentUser) {
+        container.innerHTML = `
+          <div class="flex items-center gap-2">
+            <div onclick="openProfileModal()" class="flex items-center gap-2 cursor-pointer bg-white/10 hover:bg-white/20 px-2.5 py-1 rounded-full transition-all border border-white/20">
+              <div class="w-5 h-5 rounded-full bg-amber-400 text-slate-900 font-extrabold flex items-center justify-center text-[10px]">
+                ${state.currentUser.role === 'VIP' ? 'VIP' : '👤'}
+              </div>
+              <span class="font-semibold text-white">${state.currentUser.name}</span>
+              <span class="text-[10px] bg-amber-400 text-slate-900 font-bold px-1.5 py-0.2 rounded">${state.currentUser.rank}</span>
+            </div>
+            <button onclick="logoutUser()" title="Đăng xuất" class="hover:text-orange-200 text-xs px-1">
+              (Thoát)
+            </button>
+          </div>
+        `;
+        const nameInput = document.getElementById("orderCustomerName");
+        const phoneInput = document.getElementById("orderCustomerPhone");
+        const addrInput = document.getElementById("orderCustomerAddress");
+        if (nameInput) nameInput.value = state.currentUser.name;
+        if (phoneInput) phoneInput.value = state.currentUser.phone;
+        if (addrInput) addrInput.value = state.currentUser.address;
+      } else {
+        container.innerHTML = `
+          <div class="flex items-center gap-2 text-xs">
+            <button onclick="openAuthModal('register')" class="hover:text-orange-200 font-semibold">
+              Đăng Ký
+            </button>
+            <span class="opacity-40">|</span>
+            <button onclick="openAuthModal('login')" class="bg-white text-[#d73211] hover:bg-orange-100 font-bold px-3 py-1 rounded-full shadow-sm transition-all flex items-center gap-1">
+              <span>Đăng Nhập</span>
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    function openAuthModal(tab = 'login') {
+      switchAuthTab(tab);
+      document.getElementById("authModal").classList.remove("hidden");
+    }
+
+    function closeAuthModal() {
+      document.getElementById("authModal").classList.add("hidden");
+    }
+
+    function switchAuthTab(tab) {
+      const tabLogin = document.getElementById("tabAuthLogin");
+      const tabRegister = document.getElementById("tabAuthRegister");
+      const formLogin = document.getElementById("formLogin");
+      const formRegister = document.getElementById("formRegister");
+      const title = document.getElementById("authModalTitle");
+
+      if (tab === 'register') {
+        tabLogin.className = "flex-1 pb-2.5 text-center text-slate-400 hover:text-slate-700 transition-all";
+        tabRegister.className = "flex-1 pb-2.5 text-center text-[#ee4d2d] border-b-2 border-[#ee4d2d] transition-all";
+        formLogin.classList.add("hidden");
+        formRegister.classList.remove("hidden");
+        title.textContent = "Đăng Ký Tài Khoản Shopee Mall";
+      } else {
+        tabLogin.className = "flex-1 pb-2.5 text-center text-[#ee4d2d] border-b-2 border-[#ee4d2d] transition-all";
+        tabRegister.className = "flex-1 pb-2.5 text-center text-slate-400 hover:text-slate-700 transition-all";
+        formLogin.classList.remove("hidden");
+        formRegister.classList.add("hidden");
+        title.textContent = "Đăng Nhập Shopee Mall";
+      }
+    }
+
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const userField = document.getElementById("loginUsername").value.trim();
+      const passField = document.getElementById("loginPassword").value.trim();
+      if (!userField || !passField) return;
+
+      state.currentUser = {
+        name: userField.includes("@") ? userField.split("@")[0] : userField,
+        phone: "0918.234.567",
+        email: userField.includes("@") ? userField : `${userField}@gmail.com`,
+        address: "Khu chế xuất Tân Thuận, Quận 7, TP. HCM",
+        rank: "Thành Viên VIP",
+        role: "VIP"
+      };
+      saveState();
+      closeAuthModal();
+      showToast(`Chào mừng ${state.currentUser.name} đã đăng nhập!`);
+    }
+
+    function handleRegisterSubmit(e) {
+      e.preventDefault();
+      const fullName = document.getElementById("regFullName").value.trim();
+      const phone = document.getElementById("regPhone").value.trim();
+      if (!fullName) return;
+
+      state.currentUser = {
+        name: fullName,
+        phone: phone || "0909.888.999",
+        email: `${phone || 'member'}@gmail.com`,
+        address: "TP. Hồ Chí Minh",
+        rank: "Thành Viên Mới",
+        role: "MEMBER"
+      };
+      saveState();
+      closeAuthModal();
+      showToast(`🎉 Chúc mừng ${fullName} đã đăng ký tài khoản thành công!`);
+    }
+
+    function quickLoginUser(type) {
+      state.currentUser = type === 'vip' ? { ...DEMO_USERS.vip } : { ...DEMO_USERS.guest };
+      saveState();
+      closeAuthModal();
+      showToast(`Đăng nhập thành công với tài khoản: ${state.currentUser.name}`);
+    }
+
+    function quickSocialLogin(platform) {
+      state.currentUser = {
+        name: `${platform} User`,
+        phone: "0988.777.666",
+        email: `social.${platform.toLowerCase()}@shopee.vn`,
+        address: "TP. Hồ Chí Minh",
+        rank: "Thành Viên",
+        role: "MEMBER"
+      };
+      saveState();
+      closeAuthModal();
+      showToast(`Đã liên kết đăng nhập qua ${platform}!`);
+    }
+
+    function logoutUser() {
+      state.currentUser = null;
+      saveState();
+      closeProfileModal();
+      showToast("Đã đăng xuất tài khoản.");
+    }
+
+    function openProfileModal() {
+      if (!state.currentUser) {
+        openAuthModal('login');
+        return;
+      }
+      document.getElementById("profileNameDisplay").textContent = state.currentUser.name;
+      document.getElementById("profileRankDisplay").textContent = state.currentUser.rank;
+      document.getElementById("profFullName").value = state.currentUser.name;
+      document.getElementById("profPhone").value = state.currentUser.phone;
+      document.getElementById("profEmail").value = state.currentUser.email;
+      document.getElementById("profAddress").value = state.currentUser.address;
+
+      document.getElementById("profileModal").classList.remove("hidden");
+    }
+
+    function closeProfileModal() {
+      document.getElementById("profileModal").classList.add("hidden");
+    }
+
+    function handleSaveProfile(e) {
+      e.preventDefault();
+      if (!state.currentUser) return;
+      state.currentUser.name = document.getElementById("profFullName").value.trim();
+      state.currentUser.phone = document.getElementById("profPhone").value.trim();
+      state.currentUser.email = document.getElementById("profEmail").value.trim();
+      state.currentUser.address = document.getElementById("profAddress").value.trim();
+      saveState();
+      closeProfileModal();
+      showToast("Đã lưu thông tin hồ sơ thành công!");
+    }
+
+    function togglePasswordVisibility(fieldId) {
+      const field = document.getElementById(fieldId);
+      if (field) {
+        field.type = field.type === "password" ? "text" : "password";
+      }
+    }
+
+    // ================= PRODUCT CATALOG & FILTERS =================
     function renderCategoryPills() {
       const container = document.getElementById("categoryPillList");
       container.innerHTML = CATEGORIES.map(cat => {
@@ -1075,7 +1434,6 @@
         list = list.filter(p => p.price > 10000000);
       }
 
-      // Sort
       if (state.sortMode === "popular") {
         list.sort((a, b) => b.soldCount - a.soldCount);
       } else if (state.sortMode === "best_seller") {
@@ -1124,23 +1482,19 @@
       container.innerHTML = products.map(item => `
         <div class="group bg-white rounded-2xl border border-slate-100 hover:border-orange-300 shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col overflow-hidden relative">
           
-          <!-- Image Container with Badges -->
           <div class="relative aspect-square bg-slate-100 overflow-hidden cursor-pointer" onclick="openQuickView('${item.id}')">
             <img src="${item.image}" alt="${item.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600'">
             
-            <!-- Badges -->
             <div class="absolute top-2 left-2 flex flex-col gap-1 items-start">
               ${item.isMall ? '<span class="bg-[#d0011b] text-white text-[10px] font-black px-1.5 py-0.5 rounded shadow-sm uppercase tracking-wider">MALL</span>' : '<span class="bg-orange-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow-sm">Yêu thích+</span>'}
               <span class="bg-amber-400 text-slate-900 text-[10px] font-black px-1.5 py-0.5 rounded shadow-sm">${item.discount}</span>
             </div>
 
-            <!-- Free shipping tag -->
             <div class="absolute bottom-2 left-2">
               <span class="bg-emerald-600/90 backdrop-blur-xs text-white text-[9px] font-bold px-1.5 py-0.5 rounded">Freeship Xtra</span>
             </div>
           </div>
 
-          <!-- Product Meta & Price -->
           <div class="p-3 flex-1 flex flex-col justify-between space-y-2">
             <div>
               <h3 onclick="openQuickView('${item.id}')" class="text-xs font-bold text-slate-800 line-clamp-2 leading-relaxed hover:text-[#ee4d2d] cursor-pointer" title="${item.title}">
@@ -1149,13 +1503,11 @@
             </div>
 
             <div class="space-y-1">
-              <!-- Price Display -->
               <div class="flex items-baseline gap-1.5 flex-wrap">
                 <span class="text-xs sm:text-sm font-black text-[#ee4d2d]">${formatVND(item.price)}</span>
                 <span class="text-[10px] text-slate-400 line-through">${formatVND(item.originalPrice)}</span>
               </div>
 
-              <!-- Rating & Sold Count -->
               <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1">
                 <span class="text-amber-500 font-bold flex items-center gap-0.5">
                   ★ <span class="text-slate-700">${item.rating}</span>
@@ -1163,13 +1515,11 @@
                 <span>Đã bán ${item.soldCount > 1000 ? (item.soldCount / 1000).toFixed(1) + 'k' : item.soldCount}</span>
               </div>
 
-              <!-- Location Tag -->
               <div class="text-[10px] text-slate-400 flex items-center justify-end">
                 <span>${item.location}</span>
               </div>
             </div>
 
-            <!-- Action Add to Cart Button -->
             <button onclick="addToCart('${item.id}', 1)" class="w-full mt-2 bg-orange-50 hover:bg-[#ee4d2d] text-[#ee4d2d] hover:text-white py-1.5 rounded-xl text-xs font-black transition-colors flex items-center justify-center gap-1">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
               <span>Thêm Giỏ Hàng</span>
@@ -1228,7 +1578,7 @@
       } else if (state.activeVoucher === "SHOPEE50K") {
         discount = Math.min(50000, subtotal);
       } else if (state.activeVoucher === "FREESHIP") {
-        discount = 0; // free shipping already 0
+        discount = 0;
       }
       const total = Math.max(0, subtotal - discount);
       return { subtotal, discount, total };
@@ -1254,7 +1604,6 @@
             <div class="flex-1 min-w-0">
               <h4 class="text-xs font-bold text-slate-800 line-clamp-1">${item.title}</h4>
               <p class="text-xs font-black text-[#ee4d2d] mt-0.5">${formatVND(item.price)}</p>
-              <!-- Qty stepper -->
               <div class="flex items-center gap-2 mt-1.5">
                 <button onclick="updateCartQuantity('${item.productId}', -1)" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-xs">-</button>
                 <span class="text-xs font-bold text-slate-900 px-1">${item.quantity}</span>
@@ -1268,13 +1617,11 @@
         `).join('');
       }
 
-      // Update calculations
       const { subtotal, discount, total } = calculateCartTotals();
       document.getElementById("cartSubtotalText").textContent = formatVND(subtotal);
       document.getElementById("cartDiscountText").textContent = discount > 0 ? `-${formatVND(discount)}` : "-0 ₫";
       document.getElementById("cartTotalText").textContent = formatVND(total);
 
-      // Voucher box state
       const voucherBox = document.getElementById("activeVoucherBox");
       const voucherText = document.getElementById("activeVoucherText");
       if (state.activeVoucher) {
@@ -1384,7 +1731,12 @@
       const { total } = calculateCartTotals();
       document.getElementById("checkoutTotalAmount").textContent = formatVND(total);
 
-      // Generate VietQR
+      if (state.currentUser) {
+        document.getElementById("orderCustomerName").value = state.currentUser.name;
+        document.getElementById("orderCustomerPhone").value = state.currentUser.phone;
+        document.getElementById("orderCustomerAddress").value = state.currentUser.address;
+      }
+
       const qrImg = document.getElementById("vietQrImg");
       const orderDesc = `DH${Date.now().toString().slice(-6)}`;
       const qrUrl = `https://img.vietqr.io/image/MB-0345678999-compact2.png?amount=${total}&addInfo=${orderDesc}&accountName=GIA%20HAN%20PHAT`;
@@ -1402,8 +1754,8 @@
     }
 
     function confirmPlaceOrder() {
-      const name = document.getElementById("orderCustomerName").value.trim() || "Châu Ngọc Bình";
-      const phone = document.getElementById("orderCustomerPhone").value.trim() || "0918.234.567";
+      const name = document.getElementById("orderCustomerName").value.trim() || (state.currentUser ? state.currentUser.name : "Khách Hàng");
+      const phone = document.getElementById("orderCustomerPhone").value.trim() || (state.currentUser ? state.currentUser.phone : "0918.234.567");
       const address = document.getElementById("orderCustomerAddress").value.trim() || "TP. Hồ Chí Minh";
       const methodRadio = document.querySelector('input[name="paymentMethod"]:checked');
       const paymentMethod = methodRadio ? methodRadio.value : "vietqr";
@@ -1451,7 +1803,6 @@
       container.innerHTML = state.orders.map(order => `
         <div class="bg-white rounded-3xl p-5 shadow-card border border-slate-100 space-y-4">
           
-          <!-- Order Top Header -->
           <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
             <div class="flex items-center gap-3">
               <span class="font-black text-slate-900 text-sm">Mã đơn: <span class="text-[#ee4d2d]">${order.orderId}</span></span>
@@ -1466,7 +1817,6 @@
             </div>
           </div>
 
-          <!-- Items in order -->
           <div class="space-y-3">
             ${order.items.map(it => `
               <div class="flex items-center justify-between text-xs py-1">
@@ -1482,7 +1832,6 @@
             `).join('')}
           </div>
 
-          <!-- Order Summary Footer -->
           <div class="pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-slate-50 p-3.5 rounded-2xl">
             <div class="text-xs text-slate-600 space-y-0.5">
               <p>Người nhận: <strong>${order.customerName}</strong> (${order.customerPhone})</p>
@@ -1557,12 +1906,14 @@
           if (parsed.products) state.products = parsed.products;
           if (parsed.cart) state.cart = parsed.cart;
           if (parsed.orders) state.orders = parsed.orders;
+          if (parsed.currentUser) state.currentUser = parsed.currentUser;
           saveState();
           renderCategoryPills();
           renderProductGrid();
           renderFlashSale();
           renderCartDrawer();
           renderOrdersView();
+          renderAuthUI();
           showToast("Khôi phục dữ liệu từ file JSON thành công!");
         } catch (err) {
           showToast("File JSON không hợp lệ!", "error");
@@ -1581,6 +1932,7 @@
         renderFlashSale();
         renderCartDrawer();
         renderOrdersView();
+        renderAuthUI();
         showToast("Đã khôi phục dữ liệu gốc!");
         toggleSettingsMenu();
       }
@@ -1737,6 +2089,7 @@
     // INITIALIZATION
     window.addEventListener("DOMContentLoaded", () => {
       loadState();
+      renderAuthUI();
       renderCategoryPills();
       renderProductGrid();
       renderFlashSale();
@@ -1744,7 +2097,6 @@
       updateOrderBadges();
       startCountdown();
 
-      // Close settings menu when clicking outside
       document.addEventListener('click', (e) => {
         const menu = document.getElementById('settingsMenu');
         const btn = document.getElementById('btnSettings');
